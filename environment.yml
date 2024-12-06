@@ -1,0 +1,9 @@
+name: climR
+channels:
+  - conda-forge
+  - base
+  - bioconda
+  - R
+dependencies:
+  - r-base=4.4.1
+  - r-tidyverse=2.0.0
