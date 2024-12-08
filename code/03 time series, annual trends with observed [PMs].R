@@ -1,0 +1,63 @@
+par(mar=c(1,1,1,1))
+par(mfrow = c(4,3))
+boxplot(df_UB_norm$Visibility, na.rm = TRUE)
+boxplot(df_UB_comp$Visibility, na.rm = TRUE)
+t.test(df_UB_norm$Visibility,df_UB_comp$Visibility)
+plot(density(df_UB_norm$Visibility, na.rm = TRUE), main = "Visibility")
+lines(density(df_UB_comp$Visibility, na.rm = TRUE), col = "red" )
+
+### decompose x
+plot(annual_TimeSeries_UB_pm10$x, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_UB_pm2.5$x, main = "", ylab=" ", xlab = " ", col = "#CD0000")
+plot(annual_TimeSeries_DZ_pm10$x, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_DZ_pm2.5$x, main = "", ylab=" ", xlab = " ", col = "#EE7600")
+plot(annual_TimeSeries_ZU_pm10$x, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_ZU_pm2.5$x, main = "", ylab=" ", xlab = " ", col = "#FFFF00")
+plot(annual_TimeSeries_SS_pm10$x, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_SS_pm2.5$x, main = "", ylab=" ", xlab = " ", col = "#008B45")
+### annual trends
+plot(annual_TimeSeries_UB_pm10$trend, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_UB_pm2.5$trend, main = "", ylab=" ", xlab = " ", col = "#CD0000")
+plot(annual_TimeSeries_DZ_pm10$trend, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_DZ_pm2.5$trend, main = "", ylab=" ", xlab = " ", col = "#EE7600")
+plot(annual_TimeSeries_ZU_pm10$trend, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_ZU_pm2.5$trend, main = "", ylab=" ", xlab = " ", col = "#FFFF00")
+plot(annual_TimeSeries_SS_pm10$trend, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_SS_pm2.5$trend, main = "", ylab=" ", xlab = " ", col = "#008B45")
+## annual trend +seasonal
+plot(annual_TimeSeries_UB_pm10$trend + annual_TimeSeries_UB_pm10$seasonal, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_UB_pm2.5$trend + annual_TimeSeries_UB_pm10$seasonal, main = "", ylab=" ", xlab = " ", col = "#CD0000")
+plot(annual_TimeSeries_DZ_pm10$trend + annual_TimeSeries_DZ_pm10$seasonal, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_DZ_pm2.5$trend + annual_TimeSeries_DZ_pm10$seasonal, main = "", ylab=" ", xlab = " ", col = "#EE7600")
+plot(annual_TimeSeries_ZU_pm10$trend + annual_TimeSeries_ZU_pm10$seasonal, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_ZU_pm2.5$trend + annual_TimeSeries_ZU_pm10$seasonal, main = "", ylab=" ", xlab = " ", col = "#FFFF00")
+plot(annual_TimeSeries_SS_pm10$trend + annual_TimeSeries_SS_pm10$seasonal, main = "", xlab = " ", ylab=" ")
+lines(annual_TimeSeries_SS_pm2.5$trend + annual_TimeSeries_SS_pm10$seasonal, main = "", ylab=" ", xlab = " ", col = "#008B45")
+
+df_cleaned_daily_UB <- df_clean |>
+  filter(Station.name == "UB")
+df_cleaned_daily_DZ <- df_clean |>
+  filter(Station.name == "DZ")
+df_cleaned_daily_ZU <- df_clean |>
+  filter(Station.name == "ZU")
+df_cleaned_daily_SS <- df_clean |>
+  filter(Station.name == "SS")
+
+plot(df_cleaned_daily_UB$Date, df_cleaned_daily_UB$pm10, main = "", xlab = " ", ylab="pm")
+lines(df_cleaned_daily_UB$Date, df_cleaned_daily_UB$pm2.5, main = "", ylab=" ", xlab = " ", col = "#CD0000")
+plot(df_cleaned_daily_DZ$Date, df_cleaned_daily_DZ$pm10, main = "", xlab = " ", ylab=" ")
+lines(df_cleaned_daily_DZ$Date, df_cleaned_daily_DZ$pm2.5, main = "", ylab=" ", xlab = " ", col = "#EE7600")
+plot(df_cleaned_daily_ZU$Date, df_cleaned_daily_ZU$pm10, main = "", xlab = " ", ylab=" ")
+lines(df_cleaned_daily_ZU$Date, df_cleaned_daily_ZU$pm2.5, main = "", ylab=" ", xlab = " ", col = "#FFFF00")
+plot(df_cleaned_daily_SS$Date, df_cleaned_daily_SS$pm10, main = "", xlab = " ", ylab=" ")
+lines(df_cleaned_daily_SS$Date, df_cleaned_daily_SS$pm2.5, main = "", ylab=" ", xlab = " ", col = "#008B45")
+## ("#CD0000", "#EE7600", "#FFFF00", "#008B45")
+
+plot(annual_TimeSeries_UB_pm10)
+plot(annual_TimeSeries_DZ_pm10)
+plot(annual_TimeSeries_ZU_pm10)
+plot(annual_TimeSeries_SS_pm10)
+plot(annual_TimeSeries_UB_pm2.5)
+plot(annual_TimeSeries_DZ_pm2.5)
+plot(annual_TimeSeries_ZU_pm2.5)
+plot(annual_TimeSeries_SS_pm2.5)

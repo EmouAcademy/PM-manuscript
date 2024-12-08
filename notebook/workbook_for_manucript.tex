@@ -1,0 +1,395 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{helvet} % Helvetica font
+\renewcommand*\familydefault{\sfdefault} % Use the sans serif version of the font
+\usepackage[T1]{fontenc}
+
+\usepackage[none]{hyphenat}
+
+\usepackage{setspace}
+\doublespacing
+\setlength{\parskip}{1em}
+
+\usepackage{lineno}
+
+\usepackage{pdfpages}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Spatio-temporal distinct patterns in variations of PM\_\{10\} and PM\_\{2.5\} relative to the recent drivings of emission sources in Mongolia},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{\textbf{Spatio-temporal distinct patterns in variations of
+\(PM_{10}\) and \(PM_{2.5}\) relative to the recent drivings of emission
+sources in Mongolia}}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\vspace{35mm}
+
+Running title: INSERT RUNNING TITLE HERE
+
+\vspace{35mm}
+
+Munkh\^{}1, Joeseph P. Schmo\^{}2, Sally J. Rivers\^{}1, Patrick D.
+Schloss\textsuperscript{1}\(\dagger\)
+
+\vspace{40mm}
+
+\(\dagger\) To whom correspondence should be addressed:
+\href{mailto:pschloss@umich.edu}{\nolinkurl{pschloss@umich.edu}}
+
+1. Department of Microbiology and Immunology, University of Michigan,
+Ann Arbor, MI 48109
+
+2. Other department contact information
+
+\newpage
+\linenumbers
+
+\subsection{Abstract}\label{abstract}
+
+Storyline:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A new pattern is emerged
+\item
+  Air quality in urban sites is episodically dictated by dust events in
+  spring or late autumn, yet seasonally governed by anthropogenic
+  emissions in winter. {[}Air quality is governed by natural dust
+  emission, and anthropogenic emissions{]}
+\item
+  With recent growing interest in urban life style, and combustion of
+  coal/oyutolgoi for heating winter conditions results a highly increase
+  in not only capital city but also towns
+\item
+  In a result, spring coarse dust, plus winter fine pollutants
+\item
+  spring coarse dust is immediately transported and deposited in the
+  source area, whereas winter fine pollutants is permanently stayed in
+  the source area due to stagnant atmosphere govern over entire
+  country., perhaps floating in the near surface, deposits in the
+  surface{]}
+\item
+  Alarms, the Mongolian dust in the spring, optical properties might be
+  shifted; this gives \ldots{} Gobi dust and sand storms has become
+  tuiren, from the shoroon shuurga. which clearly requires the
+  attention.
+\item
+  r ratio shows \ldots{} emission source; dust might carry anthropogenic
+  fine particulates as well. \newpage
+\end{enumerate}
+
+\subsection{Introduction}\label{introduction}
+
+\begin{itemize}
+\item
+  More importantly, the increased concentrations of particulate matters
+  has a significant effects on the climate system, altering the solar
+  incidence, cloud formation, and precipitation. Because a comprehensive
+  research studies on dust and aerosol, particularly from the dust
+  source regions is invaluable.On the other hand, concentrations of
+  particulate matter is ephederemal, yet vary depending on whether the
+  pollution cause is natural or industrial, local or transported,
+  seasonal or non-seasonal.
+\item
+  It is well-informed that concentrations of air particulate matter
+  solely depend on urbanization and economic situations to the area of
+  the interest of the country. Globally, 7.3 billion people are directly
+  exposed to unsafe average annual PM2.5 concentrations, and 80\% of
+  them living in low- and middle-income countries, where economies often
+  rely heavily on polluting industries. A similar pattern of the
+  significant disparities in air quality among income and racial/ethnic
+  groups, as well as between urban and rural areas was reported in USA
+  (Liu et al., 2021). Despite this disparity, meteorological effects
+  such as dust storm, stagnant weather plays important role in the
+  spatiotemporal variability of PM10 and PM2.5. For an instance, in
+  Mongolia, the atmospheric environment related to urban and rural air
+  pollution are strongly characterized by its temperate and dry climatic
+  conditions. Siberian anticyclonic activity governed over Mongolia,
+  which create a significant vulnerability to winter air pollution in
+  the populated areas. The monthly mean concentrations of PM10 (PM2.5)
+  reached annual maximum in December and January due to winter synoptic
+  governing conditions in Ulaanbaatar, capital city of Mongolia
+  (Jugder). Despite this, the spring dust storms creates another
+  polluted season in UB. On spring, the dust storm from the Gobi Desert
+  contribute significantly to increased aerosols in the atmosphere and
+  ambient air pollution, leading to sporadic peaks in PM10
+  concentrations reaching as high as 64-234 \(\mu g m^{-3}\) per day or
+  exceeding 6000 \(\mu g m^{-3}\) per hour (Jugder). A such changes in
+  PM10 and PM2.5 to stagnant weather conditions, and local or
+  transported dust was also observed in other countries China (Wang),
+  Korea (Kim) and Japan (). Many research findings/Numerous research
+  findings have advanced the field, and air quality indices is widely
+  used for providing guidance, and public perception of air quality has
+  been improved (Mirabelli et al., 2020).
+\item
+  Demonstrating temporal and spatial variations of air particulate
+  matter has become important for understanding characteristics of
+  particulate matter in the climate system, providing valuable
+  information for well-established air quality measures, and
+  illustrating the good trace data for health studies. Because
+  particulate pollutants have a great impact on human health (Dockery
+  and Pope,1994; Harrison and Yin, 2000; Hong et al., 2002), high
+  atmospheric concentrations of these pollutants was a major concern
+  particularly in urban areas, in the last 2-3 decades. Recent studies
+  highlight that even low concentrations of these pollutants can lead to
+  various health issues, and may associate with morbidity and mortality
+  across the life span (Zigler et al., 2017). Children exposed to high
+  levels of air pollution show increased rates of asthma, decreased lung
+  function growth, and increased risk of early markers of cardiovascular
+  disease (Bourdrel et al., 2017; Gauderman et al., 2015; Hehua et al.,
+  2017). Short-term exposure with high level of PM10 resulted the
+  chronic cardiovascular disease in Mongolia (Enkhjargal 2020). In
+  addition to these health issues, (prenatal) neurodevelopmental impacts
+  such as effects on intelligence, attention, autism, and mood, while
+  aging populations experience accelerated cognitive decline when
+  exposed to high levels of pollution is detected (Power et al., 2016).
+  Long-term exposure to low levels of particulate matter, such as
+  concentrations as low as 10 \(\mu g m^{-3}\) (equilibrium to WHO Air
+  Quality Guidelines), has been linked to increased lung cancer in the
+  EU (Hvidtfeldt et al.~2021), with similar evidences reported in Canada
+  (Bai et al., 2019), and significantly higher rates captured in China
+  with concentrations up to 30 \(\mu g m^{-3}\). Apparently, pollutants
+  of particulate matters has effects to various health issues with the
+  different thresholds and exposure durations. However, more in-depth
+  and diversified research on air pollution and its health effects is
+  essential, with the detailed information is necessary (Tan et al 2021)
+  to have accuracy of assessing exposure to air pollution during
+  developmentally relevant time periods, such as trimesters or months
+  (Becerra et al., 2013; Gong et al., 2014; Kalkbrenner et al., 2014) or
+  weeks (Chiu et al., 2016)
+\item
+  Therefore, we aimed to demonstrate the distinct temporal and spatial
+  variations of PM2.5 and PM10 across urban and rural Mongolia using
+  extensive data from 2008 to 2020. The present study will contribute
+  significantly to the understanding of air particulate matter patterns
+  in Mongolia and providing comprehensive data insights for policymakers
+  and public health sectors. Our findings is useful not only for
+  addressing national health impacts but also beneficial for
+  understanding air particulate matter as ambient air pollution, and
+  tackling atmospheric aerosol effects in the climate system, and
+  revealing their transboundary effects to the downwind regions in
+  South-east Asia. \newpage
+\end{itemize}
+
+\subsection{Results and Discussion}\label{results-and-discussion}
+
+\textsuperscript{1} dksl ss\textsuperscript{2} \textbf{Figure 3.
+Geographic locations of study sites} is shown in the wind speed map and
+elevation maps.
+
+\newpage
+
+\subsection{Conclusions}\label{conclusions}
+
+\newpage
+
+\subsection{Materials and Methods}\label{materials-and-methods}
+
+\subsubsection{A description of study
+sites}\label{a-description-of-study-sites}
+
+According to the spatial magnitude of wind stress in Mongolia (Figure
+1), the largest magnitude of wind speed is on the Gobi sites,
+particularly those located in the southeast edge of the country.
+
+\begin{itemize}
+\tightlist
+\item
+  The impact of high winds on plant diversity varies across
+  environmental gradients of precipitation and soil fertility (Milchunas
+  et al., 1988).
+\item
+  In the desert steppe zone, species richness was lower in the drier
+  years but did not vary with grazing pressure.
+\item
+  In the steppe zone, species richness varied significantly with grazing
+  pressure but did not vary between years. Species richness is not
+  impacted by grazing gradient in desert steppe, but it is in the steppe
+  (Cheng et al., 2011).
+\end{itemize}
+
+In the last 2 decades, due to poverty and natural disasters there is
+population immigration has taken place from the rural to urban,
+especially to capital city of Mongolia. Due to tiny infrastructure to
+provide the mega city with the dense population, it introduces the urban
+pollution. Therefore, Ulaanbaatar air particulate matter mainly reflects
+the coal burning, and partly, natural dust.
+
+Consequently, the atmospheric environment and climate for Mongolian Gobi
+has been impacted the most by frequent dust and and sand storm in the
+spring.
+
+Our study was carried out in Dalanzadgad (town center) (Tbl. 1; 43.57°N,
+104.42°E), Sainshand (Tbl. 1; 44.87°N, 110.12°E) and Zamyn-Uud (Tbl. 1;
+43.72°N, 111.90°E) in the Gobi Desert, and at Ulaanbaatar (Tbl.??.??°N,
+104.42°E) (city center) located in the temperate Mongolian steppe of
+Mongolia (Figure 2). Nomads and settlements of this sum have raised a
+large number of livestock, and they rank at number 30 out of 329 sums
+for the largest number of livestock raised per sum (Saizen et al.,
+2010). In the last decade, the number of dust events associated with
+wind erodibility increased by 30 \% in Bayan-Önjüül (Kurosaki et al.,
+2011). This is an area where dust emissions activity has been monitored
+on a long-term basis (Shinoda et al., 2010a) at a dust observation site
+(DOS) adjacent to the study site (Fig. 1a). According to long-term
+meteorological observations made at the monitoring station of the
+Institute of Meteorology and Hydrology of Mongolia located near the
+site, the prevailing wind direction is northwest. Mean annual
+precipitation is 163 mm, and mean temperature is 0.1◦C for the period
+1995 to 2005 (Shinoda et al., 2010b). Soil texture is dominated by sand
+(98.1 \%, with only 1.3 \% clay and 0.6 \% silt; Table 1; Shinoda et
+al., 2010a). Insert figure legends with the first sentence in bold, for
+example:
+
+\textbf{Figure 1. Geographic locations of study sites} is shown in the
+wind speed map and elevation maps.
+
+\textbf{Table 1. A description of datasets obtained at the sites}
+
+\textbf{Figure 2.} is shown in the wind speed map and elevation maps.
+
+\cite{Schloss2009} \newpage
+
+\subsection{References}\label{references}
+
+This is an \href{http://rmarkdown.rstudio.com}{R Markdown} Notebook.
+When you execute code within the notebook, the results appear beneath
+the code.
+
+Try executing this chunk by clicking the \emph{Run} button within the
+chunk or by placing your cursor inside it and pressing
+\emph{Cmd+Shift+Enter}.
+
+\pandocbounded{\includegraphics[keepaspectratio]{workbook_for_manucript_files/figure-latex/unnamed-chunk-1-1.pdf}}
+
+Add a new chunk by clicking the \emph{Insert Chunk} button on the
+toolbar or by pressing \emph{Cmd+Option+I}.
+
+When you save the notebook, an HTML file containing the code and output
+will be saved alongside it (click the \emph{Preview} button or press
+\emph{Cmd+Shift+K} to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the
+editor. Consequently, unlike \emph{Knit}, \emph{Preview} does not run
+any R code chunks. Instead, the output of the chunk when it was last run
+in the editor is displayed.
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{0}{0}
+\bibitem[\citeproctext]{ref-Schloss2009}
+\CSLLeftMargin{1. }%
+\CSLRightInline{Schloss, P. D. \emph{et al.}
+\href{https://doi.org/10.1128/aem.01541-09}{Introducing mothur:
+Open-source, platform-independent, community-supported software for
+describing and comparing microbial communities}. \emph{Applied and
+Environmental Microbiology} \textbf{75}, 7537--7541 (2009).}
+
+\bibitem[\citeproctext]{ref-Munkh2017}
+\CSLLeftMargin{2. }%
+\CSLRightInline{Munkhtsetseg, E. \emph{et al.}
+\href{https://doi.org/10.5194/acp-17-11389-2017}{Anthropogenic dust
+emissions due to livestock trampling in a mongolian temperate
+grassland}. \emph{Atmospheric Chemistry and Physics} \textbf{17},
+11389--11401 (2017).}
+
+\end{CSLReferences}
+
+\end{document}

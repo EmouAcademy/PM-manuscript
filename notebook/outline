@@ -1,0 +1,71 @@
+## Research Qs
+1. Do concentrations of particulate matters differ in between urban and rural sites, and even within Gobi sites?
+2. Do distinct temporal variations has existed among the sites?
+3. Do PM2.5 particulates has contributed to the PM10 annual variations?
+  - If yes, how much, and when and where?
+  - What is the sd, mean, and median
+    - box plot
+    - violin
+    - scatter points, epidemic, sporadic
+  - Daily variations to examine it related to the heating
+    - 2 peaks: smaller and bigger
+    - compare the t-duration exceeds 50mug/m3/hour
+4. Does it has distinct patterns among the sites regarding to the drivings
+  - How PMs varies with the wind speed and visibility
+  - Do they differently explained with variables and changes in drivings (with PCA analysis)
+5. Is there any significant changes in time-series of PMs at 4 seasons
+6. Is there any significant changes in ratio in the spring in respect to winter?
+
+
+## Results
+* The spatio-temporal variations of the PMs at the study sites
+  - Concentrations of particulate matters differ in between urban and rural sites, and even within Gobi sites.
+  - Distinct temporal variations has existed among the sites.
+  - PM2.5 particulates has contributed to the PM10 annual variations in UB and in DZ in winter.
+    - If yes, how much, and when and where?
+    - What is the sd, mean, and median
+      - box plot
+      - violin
+      - scatter points, epidemic, sporadic
+    - Daily variations to examine it related to the heating
+      - 2 peaks: smaller and bigger
+      - compare the t-duration exceeds 50mug/m3/hour
+
+* The emission patterns of interrelations among meteorological variables at the study sites
+  - PMs varies with the wind speed and visibility
+  - In general, three distinct patterns were resulted with PCA analysis, which is in consistent with temporal variation. explained with variables and changes in drivings (with PCA analysis)
+
+* The recent trends in concentrations of PMS and fine-coarse fractional changes at the sites
+  - There are significant changes in time-series of PMs at 4 seasons
+  - There any significant changes in ratio in the spring in respect to winter in DZ.
+  - Close relationships was found between PM2.5 in winter and r values in the spring.
+
+
+## Conclusions
+* The spatio-temporal variations of the PMs at the study sites
+  - Concentrations of particulate matters differ in between urban and rural sites, and even within Gobi sites.
+  - Distinct temporal variations has existed among the sites.
+  - PM2.5 particulates has contributed to the PM10 annual variations in UB and in DZ in winter.
+    - If yes, how much, and when and where?
+    - What is the sd, mean, and median
+      - box plot
+      - violin
+      - scatter points, epidemic, sporadic
+    - Daily variations to examine it related to the heating
+      - 2 peaks: smaller and bigger
+      - compare the t-duration exceeds 50mug/m3/hour
+
+* The emission patterns of interrelations among meteorological variables at the study sites
+  - PMs varies with the wind speed and visibility
+  - In general, three distinct patterns were resulted with PCA analysis, which is in consistent with temporal variation. explained with variables and changes in drivings (with PCA analysis)
+
+* The recent trends in concentrations of PMS and fine-coarse fractional changes at the sites
+  - There are significant changes in time-series of PMs at 4 seasons
+  - There any significant changes in ratio in the spring in respect to winter PM2.5 in DZ.
+- Close relationships was found between PM2.5 in winter and r values in the spring.
+Thus, our research results clearly proves the distinct variations in PMs has emerged.
+The dust fine-coarse fractions was manifested at the town center for the Gobi sites, which
+reveals the that Mongolian dust composites not only coarse dust, but also fine particulate matters. The particulates likely consisted of the black carbon,
+which may give a substantial effect on climate systems. if this trend continues on as coal consumption with the population growth in the future.
+- CO Carbon monoxide is obtained due to incomplete combustion of charcoal in a closed room.
+- CO2

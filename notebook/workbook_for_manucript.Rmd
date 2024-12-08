@@ -1,0 +1,131 @@
+---
+title: "**Spatio-temporal distinct patterns in variations of $PM_{10}$ and $PM_{2.5}$ relative to the recent drivings of emission sources in Mongolia**"
+bibliography: ../submission/references.bib
+output:
+  pdf_document:
+    keep_tex: true
+    includes:
+      in_header: ../submission/header.tex
+csl: ../submission/nature-communications.csl #Get themes at <https://github.com/citation-style-language/styles>
+fontsize: 11pt
+geometry: margin=1.0in
+---
+
+```{r knitr_settings, eval=TRUE, echo=FALSE, cache=FALSE}
+knitr:: opts_chunk$set("tidy" = FALSE)
+knitr:: opts_chunk$set("echo" = FALSE)
+knitr:: opts_chunk$set("eval" = TRUE)
+knitr:: opts_chunk$set("warning" = FALSE)
+knitr:: opts_chunk$set("cache" = FALSE)
+
+inline_hook <- function(x){
+	print(x)
+
+	if(is.list(x)){
+		x <- unlist(x)
+	}
+
+	if(is.numeric(x)){
+		if(abs(x - round(x)) < .Machine$double.eps^0.5){
+			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
+		} else {
+			paste(format(x,big.mark=',', digits=1, nsmall=1, scientific=FALSE))
+		}
+	} else {
+    	paste(x)      
+	}
+}
+knitr::knit_hooks$set(inline=inline_hook)
+```
+
+\vspace{35mm}
+
+Running title: INSERT RUNNING TITLE HERE
+
+\vspace{35mm}
+
+Munkh\^1, Joeseph P. Schmo\^2, Sally J. Rivers\^1, Patrick D. Schloss^1^$\dagger$
+
+\vspace{40mm}
+
+$\dagger$ To whom correspondence should be addressed: [pschloss\@umich.edu](mailto:pschloss@umich.edu){.email}
+
+1\. Department of Microbiology and Immunology, University of Michigan, Ann Arbor, MI 48109
+
+2\. Other department contact information
+
+\newpage
+\linenumbers
+
+## Abstract
+
+Storyline:
+
+1.  A new pattern is emerged
+2.  Air quality in urban sites is episodically dictated by dust events in spring or late autumn, yet seasonally governed by anthropogenic emissions in winter. [Air quality is governed by natural dust emission, and anthropogenic emissions]
+3.  With recent growing interest in urban life style, and combustion of coal/oyutolgoi for heating winter conditions results a highly increase in not only capital city but also towns
+4.  In a result, spring coarse dust, plus winter fine pollutants
+5.  spring coarse dust is immediately transported and deposited in the source area, whereas winter fine pollutants is permanently stayed in the source area due to stagnant atmosphere govern over entire country., perhaps floating in the near surface, deposits in the surface]
+6.  Alarms, the Mongolian dust in the spring, optical properties might be shifted; this gives ... Gobi dust and sand storms has become tuiren, from the shoroon shuurga. which clearly requires the attention.
+7.  r ratio shows ... emission source; dust might carry anthropogenic fine particulates as well. \newpage
+
+## Introduction
+
+-   More importantly, the increased concentrations of particulate matters has a significant effects on the climate system, altering the solar incidence, cloud formation, and precipitation. Because a comprehensive research studies on dust and aerosol, particularly from the dust source regions is invaluable.On the other hand, concentrations of particulate matter is ephederemal, yet vary depending on whether the pollution cause is natural or industrial, local or transported, seasonal or non-seasonal.
+
+-   It is well-informed that concentrations of air particulate matter solely depend on urbanization and economic situations to the area of the interest of the country. Globally, 7.3 billion people are directly exposed to unsafe average annual PM2.5 concentrations, and 80% of them living in low- and middle-income countries, where economies often rely heavily on polluting industries. A similar pattern of the significant disparities in air quality among income and racial/ethnic groups, as well as between urban and rural areas was reported in USA (Liu et al., 2021). Despite this disparity, meteorological effects such as dust storm, stagnant weather plays important role in the spatiotemporal variability of PM10 and PM2.5. For an instance, in Mongolia, the atmospheric environment related to urban and rural air pollution are strongly characterized by its temperate and dry climatic conditions. Siberian anticyclonic activity governed over Mongolia, which create a significant vulnerability to winter air pollution in the populated areas. The monthly mean concentrations of PM10 (PM2.5) reached annual maximum in December and January due to winter synoptic governing conditions in Ulaanbaatar, capital city of Mongolia (Jugder). Despite this, the spring dust storms creates another polluted season in UB. On spring, the dust storm from the Gobi Desert contribute significantly to increased aerosols in the atmosphere and ambient air pollution, leading to sporadic peaks in PM10 concentrations reaching as high as 64-234 $\mu g m^{-3}$ per day or exceeding 6000 $\mu g m^{-3}$ per hour (Jugder). A such changes in PM10 and PM2.5 to stagnant weather conditions, and local or transported dust was also observed in other countries China (Wang), Korea (Kim) and Japan (). Many research findings/Numerous research findings have advanced the field, and air quality indices is widely used for providing guidance, and public perception of air quality has been improved (Mirabelli et al., 2020).
+
+-   Demonstrating temporal and spatial variations of air particulate matter has become important for understanding characteristics of particulate matter in the climate system, providing valuable information for well-established air quality measures, and illustrating the good trace data for health studies. Because particulate pollutants have a great impact on human health (Dockery and Pope,1994; Harrison and Yin, 2000; Hong et al., 2002), high atmospheric concentrations of these pollutants was a major concern particularly in urban areas, in the last 2-3 decades. Recent studies highlight that even low concentrations of these pollutants can lead to various health issues, and may associate with morbidity and mortality across the life span (Zigler et al., 2017). Children exposed to high levels of air pollution show increased rates of asthma, decreased lung function growth, and increased risk of early markers of cardiovascular disease (Bourdrel et al., 2017; Gauderman et al., 2015; Hehua et al., 2017). Short-term exposure with high level of PM10 resulted the chronic cardiovascular disease in Mongolia (Enkhjargal 2020). In addition to these health issues, (prenatal) neurodevelopmental impacts such as effects on intelligence, attention, autism, and mood, while aging populations experience accelerated cognitive decline when exposed to high levels of pollution is detected (Power et al., 2016). Long-term exposure to low levels of particulate matter, such as concentrations as low as 10 $\mu g m^{-3}$ (equilibrium to WHO Air Quality Guidelines), has been linked to increased lung cancer in the EU (Hvidtfeldt et al. 2021), with similar evidences reported in Canada (Bai et al., 2019), and significantly higher rates captured in China with concentrations up to 30 $\mu g m^{-3}$. Apparently, pollutants of particulate matters has effects to various health issues with the different thresholds and exposure durations. However, more in-depth and diversified research on air pollution and its health effects is essential, with the detailed information is necessary (Tan et al 2021) to have accuracy of assessing exposure to air pollution during developmentally relevant time periods, such as trimesters or months (Becerra et al., 2013; Gong et al., 2014; Kalkbrenner et al., 2014) or weeks (Chiu et al., 2016)
+
+-   Therefore, we aimed to demonstrate the distinct temporal and spatial variations of PM2.5 and PM10 across urban and rural Mongolia using extensive data from 2008 to 2020. The present study will contribute significantly to the understanding of air particulate matter patterns in Mongolia and providing comprehensive data insights for policymakers and public health sectors. Our findings is useful not only for addressing national health impacts but also beneficial for understanding air particulate matter as ambient air pollution, and tackling atmospheric aerosol effects in the climate system, and revealing their transboundary effects to the downwind regions in South-east Asia. \newpage
+
+## Results and Discussion
+
+[@Schloss2009] dksl ss [@Munkh2017] **Figure 3. Geographic locations of study sites** is shown in the wind speed map and elevation maps.
+
+\newpage
+
+## Conclusions
+
+\newpage
+
+## Materials and Methods
+
+### A description of study sites
+
+According to the spatial magnitude of wind stress in Mongolia (Figure 1), the largest magnitude of wind speed is on the Gobi sites, particularly those located in the southeast edge of the country.
+
+-   The impact of high winds on plant diversity varies across environmental gradients of precipitation and soil fertility (Milchunas et al., 1988).
+-   In the desert steppe zone, species richness was lower in the drier years but did not vary with grazing pressure.
+-   In the steppe zone, species richness varied significantly with grazing pressure but did not vary between years. Species richness is not impacted by grazing gradient in desert steppe, but it is in the steppe (Cheng et al., 2011).
+
+In the last 2 decades, due to poverty and natural disasters there is population immigration has taken place from the rural to urban, especially to capital city of Mongolia. Due to tiny infrastructure to provide the mega city with the dense population, it introduces the urban pollution. Therefore, Ulaanbaatar air particulate matter mainly reflects the coal burning, and partly, natural dust.
+
+Consequently, the atmospheric environment and climate for Mongolian Gobi has been impacted the most by frequent dust and and sand storm in the spring. 
+
+Our study was carried out in Dalanzadgad (town center) (Tbl. 1; 43.57°N, 104.42°E), Sainshand (Tbl. 1; 44.87°N, 110.12°E) and Zamyn-Uud (Tbl. 1; 43.72°N, 111.90°E) in the Gobi Desert, and at Ulaanbaatar (Tbl.??.??°N, 104.42°E) (city center) located in the temperate Mongolian steppe of Mongolia (Figure 2). Nomads and settlements of this sum have raised a large number of livestock, and they rank at number 30 out of 329 sums for the largest number of livestock raised per sum (Saizen et al., 2010). In the last decade, the number of dust events associated with wind erodibility increased by 30 % in Bayan-Önjüül (Kurosaki et al., 2011). This is an area where dust emissions activity has been monitored on a long-term basis (Shinoda et al., 2010a) at a dust observation site (DOS) adjacent to the study site (Fig. 1a). According to long-term meteorological observations made at the monitoring station of the Institute of Meteorology and Hydrology of Mongolia located near the site, the prevailing wind direction is northwest. Mean annual precipitation is 163 mm, and mean temperature is 0.1◦C for the period 1995 to 2005 (Shinoda et al., 2010b). Soil texture is dominated by sand (98.1 %, with only 1.3 % clay and 0.6 % silt; Table 1; Shinoda et al., 2010a). Insert figure legends with the first sentence in bold, for example:
+
+**Figure 1. Geographic locations of study sites** is shown in the wind speed map and elevation maps.
+
+**Table 1. A description of datasets obtained at the sites**
+
+**Figure 2.** is shown in the wind speed map and elevation maps.
+
+\cite{Schloss2009} \newpage
+
+## References
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
