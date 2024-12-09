@@ -3,6 +3,7 @@ title: "**Evidence for a Change to Aerosol Fractions: In a Gobi Town**"
 bibliography: references.bib
 output:
   pdf_document:
+    latex_engine: xelatex
     keep_tex: true
     includes:
       in_header: header.tex
@@ -173,9 +174,9 @@ model has existed so for climate models which clearly limits our
 understanding the climate system and shape the facing global issues of
 global warming. This is first mainly, caused by the lack of
 parameterization and the complex nature of its aerosol composition.
-[AND] ... surface .. [AND] ... anthropogenic, livestock These findings
-highlight the significant contribution of the Gobi Desert to global dust
-aerosols and the complex nature of its aerosol composition.
+[AND] surface ... [AND] anthropogenic, livestock These findings highlight
+the significant contribution of the Gobi Desert to global dust aerosols
+and the complex nature of its aerosol composition.
 
 Second, the significant contribution of the Gobi Desert to global dust
 aerosols is not fully recognized; and their is the rapid growing changes
@@ -183,8 +184,8 @@ controlled by the natural forces and anthropogenic drivings. Mongolian
 dust has an attention of the its mass fraction in global dust, yet
 unlikely elaborated in the climate models due to its majority of coarse
 fraction for its a small contribution to the climate system through its
-radiative feedback. ... Rapid change ; few research; needs to enroll
-such changes and multidisciplinary...
+radiative feedback. ...Rapid change ; few research; needs to enroll such
+changes and multidisciplinary
 
 But, such recognized characterization might get no longer valid due to
 recent change in the driving of the emissions of air particulate

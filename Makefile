@@ -7,5 +7,5 @@ submission/manuscript.pdf submission/manuscript.docx submission/manuscript.pptx:
 submission/outline.pdf submission/outline.docx : submission/outline.Rmd
 	R -e 'library(rmarkdown); render("submission/outline.Rmd", output_format ="all")'
 
-submission/ppt_presentation.pdf submission/ppt_presentation.pptx : submission/ppt_presentation.Rmd
-	R -e 'library(rmarkdown); render("submission/ppt_presentation.Rmd", output_format ="all")'
+visuals/ppt_presentation.pdf visuals/ppt_presentation.pptx : visuals/ppt_presentation.Rmd
+	R -e 'library(rmarkdown); render("visuals/ppt_presentation.Rmd", output_format ="all")'

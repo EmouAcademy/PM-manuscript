@@ -1,4 +1,4 @@
-name: climR
+name: climpm
 channels:
   - conda-forge
   - base
@@ -7,3 +7,4 @@ channels:
 dependencies:
   - r-base=4.4.1
   - r-tidyverse=2.0.0
+  - snakemake=8.25.5
