@@ -119,6 +119,19 @@ Town}}
 \begin{document}
 \maketitle
 
+\begin{verbatim}
+## -- Attaching core tidyverse packages --------------------------------------- tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.5.1     v tibble    3.2.1
+## v lubridate 1.9.3     v tidyr     1.3.1
+## v purrr     1.0.2     
+## -- Conflicts --------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
 \vspace{35mm}
 
 Running title: INSERT RUNNING TITLE HERE
@@ -532,6 +545,17 @@ is observed at DZ, particularly during winter (Q1), suggesting rising
 emissions potentially associated with urbanized household practices and
 other local activities in Mongolia's regional towns.
 
+ratio in spring when dust
+
+Dust particles are emitted from the surface to the atmosphere when wind
+speed on the surface (i.e., friction velocity) u* exceeds a threshold
+value u\emph{t, which is determined from soil particle size and land
+surface conditions (Shao 2008). In the case of Asian dust, u}t is
+controlled by a number of land surface parameters such as snow cover,
+soil moisture, soil crust, soil freezing, and vegetation (Kurosaki et
+al.~2011), reflecting the location of its source regions (mainly the
+Gobi and Taklimakan Deserts) at middle latitudes and high altitudes.
+
 \subsection{Conclusions}\label{conclusions}
 
 Arctic oscillation, the atmospheric system most influenced by global
@@ -773,35 +797,44 @@ that measures light scattering by air-borne particulates. Meteorological
 parameters, including wind speed, wind direction and visibility were
 determined by automatic instruments and are detailed in previous
 articles (Jugder et al., 2011, 2012; Nishikawa, Sugimoto). The
-instruments for measuring particulate matters were placed 2.0 m above
-the ground level (AGL) at Dalanzadgad, Sainshand and Zamyn-Uud (Table
-2.1). Wind sensors and visibility (meteorological optical range-MOR)
-sensors with a maximum measurement range of 20 km were installed at a
-height of 3 m AGL at the three Gobi sites. At the Ulaanbaatar site, the
-wind sensor height and a visibility sensor was placed at 15 m AGL.
-Datasets were obtained from measurements at Dalanzadgad, Sainshand, and
-Zamyn-Uud from January 2009 to May 2018, and at Ulaanbaatar from the end
-of April 2008 to May 2020. The data used in the study are based on
-hourly means derived from 1 and 10 min averages.
+instruments for measuring particulate matters were placed 2 m above the
+ground level (AGL) at Dalanzadgad, Sainshand and Zamyn-Uud (Table 2.1).
+Wind sensors and visibility (meteorological optical range-MOR) sensors
+with a maximum measurement range of 20 km were installed at a height of
+3 m AGL at the three Gobi sites. At the Ulaanbaatar site, the wind
+sensor height and a visibility sensor was placed at 15 m AGL. Datasets
+were obtained from measurements at Dalanzadgad, Sainshand, and Zamyn-Uud
+from January 2009 to May 2018, and at Ulaanbaatar from the end of April
+2008 to May 2020.
 
-Missing data percentages ranged from 10.3\% to 23.6\%, attributed to
-equipment malfunctions and adverse weather conditions. Ulaanbaatar
-demonstrated the highest data completeness for both PM2.5 (88.6\%) and
-PM10 (89.7\%), whereas Dalanzadgad recorded the lowest (PM2.5: 76.4\%;
-PM10: 81.5\%). Details of missing data percentages are outlined in Table
-1. We examined the PM data quality, and removed spikes those are above
-7, and when PM10,,. Due to electricity shortage and equipment
-malfunctions contributed to the bad data, and missing data. In Sainshand
-station, \ldots{} was \ldots{} Each stations has some features, we
-treated each stations separately to remove suspective data.
+To improve the data quality, we removed spikes exceeding above 7
+\(\mu g m^{-3}\) considering the reported extreme values (XXXXX Jugder,
+XXXX Tsatsral), unrealistic PM2.5 values exceed PM10 (pm2.5
+\textgreater{} pm10 *1.1) and detected signals that invariate with an
+extended period caused by electricity shortage and equipment
+malfunctions for all sites. Further, we handled data each stations
+separately to remove suspective data, carefully. For example, In
+Sainshand station, \ldots{} was \ldots{} Prior to data quality
+improvement, there were missing data with percentages ranged from 10.3\%
+to 23.6\%, attributed to equipment malfunctions or adverse weather
+conditions. Ulaanbaatar demonstrated the highest data completeness for
+both PM2.5 (88.6\%) and PM10 (89.7\%), whereas Dalanzadgad recorded the
+lowest (PM2.5: 76.4\%; PM10: 81.5\%)(Table 1). After data quality
+improvement, missing data percentages has increased by XXXXXX. {[}Due to
+electricity shortage and equipment malfunctions contributed to the bad
+data, and missing data\ldots.{]}
 
-Missing data handling with the statistical packages At last, we filled
-the missing data with 3-hour maxgaps with imputeTS package for
-univariate time series, and larger gaps using mtsdi R package (well-used
-for time-series data), and improved the missing data percents by\ldots{}
-from \ldots{} to \ldots{} Additionally, meteorological parameters such
-as wind speed, direction, and visibility are integrated into the
-analysis to elucidate their impact on PM levels.
+The data used in the study are based on hourly means derived from 1 and
+10 min averages. For trend analysis, we added the data derived after
+data filling with the procedure, detailed in the next section.
+
+Data filling Missing data handling with the statistical packages At
+last, we filled the missing data with 3-hour maxgaps with imputeTS
+package for univariate time series, and larger gaps using mtsdi R
+package (well-used for time-series data), and improved the missing data
+percents by\ldots{} from \ldots{} to \ldots{} Additionally,
+meteorological parameters such as wind speed, direction, and visibility
+are integrated into the analysis to elucidate their impact on PM levels.
 
 The MTSDI method (Junger, Santos, and Ponce de Leon (2003), Junger and
 Leon (2012)) uses the EM algorithm with the Autoregressive Integrated
@@ -827,17 +860,6 @@ distribution of study sites and the locations of meteorological
 stations. The visual contrast between urban (e.g., Ulaanbaatar) and
 desert (e.g., Dalanzadgad) environments underscores the spatial
 variability in air quality measurements across Mongolia.
-
-Data filling
-
-Dust particles are emitted from the surface to the atmosphere when wind
-speed on the surface (i.e., friction velocity) u* exceeds a threshold
-value u\emph{t, which is determined from soil particle size and land
-surface conditions (Shao 2008). In the case of Asian dust, u}t is
-controlled by a number of land surface parameters such as snow cover,
-soil moisture, soil crust, soil freezing, and vegetation (Kurosaki et
-al.~2011), reflecting the location of its source regions (mainly the
-Gobi and Taklimakan Deserts) at middle latitudes and high altitudes.
 
 \newpage
 

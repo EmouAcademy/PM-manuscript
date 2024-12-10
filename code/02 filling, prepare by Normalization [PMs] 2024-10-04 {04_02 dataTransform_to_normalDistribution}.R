@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggplot2)
 
-
+data <- read.csv("data/processed/df.csv")
 dataTransform <- data |>
   select(Station.name, Date, Year, Month, Day, Hour, Visibility, WD, WS, pm10, pm2.5)
 
@@ -12,11 +12,11 @@ dataTransform$WD <- as.numeric(dataTransform$WD)
 df_UB <- data |>
   filter(Station.name=="UB")
 df_DZ <- data |>
-  filter(Station.name=="Dalanzadgad")
+  filter(Station.name=="DZ")
 df_SS <- data |>
-  filter(Station.name=="Sainshand")
+  filter(Station.name=="SS")
 df_ZU <- data |>
-  filter(Station.name=="Zamynuud")
+  filter(Station.name=="ZU")
 ### 1. Check skewness to detect whether it is positively skewed, or negatively skewed.
 library(moments)
 skewness(df_ZU$Visibility, na.rm = TRUE) ### -1.661681, -1.344332, -0.881717, -4.724538, -1.401889
@@ -46,7 +46,7 @@ df_UB_norm <- dataTransform |>
           )
 
 df_DZ_norm <- dataTransform |>
-  filter(Station.name=="Dalanzadgad") |>
+  filter(Station.name=="DZ") |>
   mutate(Visibility_Normalized = sqrt(20001 - Visibility), # -0.881717, negatively skewed data "sqrt(max(x+1) - x)";  
          WD_Normalized = sqrt(361 - WD), #-0.7307861, negatively skewed data "sqrt(max(x+1) - x)";  
          WS_Normalized = sqrt(WS), # 3.401697, positively skewed data "sqrt(x)"; 
@@ -55,7 +55,7 @@ df_DZ_norm <- dataTransform |>
   )
 
 df_SS_norm <- dataTransform |>
-  filter(Station.name=="Sainshand") |> 
+  filter(Station.name=="SS") |> 
   mutate(Visibility_Normalized = sqrt(20001 - Visibility),  #  -4.724538, negatively skewed data "sqrt(max(x+1) - x)";  
          WD_Normalized = sqrt(361 - WD), # -0.8549079, negatively skewed data "sqrt(max(x+1) - x)";  
          WS_Normalized = sqrt(WS), # 1.027718, positively skewed data "sqrt(x)"; 
@@ -65,7 +65,7 @@ df_SS_norm <- dataTransform |>
 
 
 df_ZU_norm <- dataTransform |>
-  filter(Station.name=="Zamynuud") |>
+  filter(Station.name=="ZU") |>
   mutate(Visibility_Normalized = sqrt(20001 - Visibility), # -1.401889, negatively skewed data "sqrt(max(x+1) - x)";
          WD_Normalized = sqrt(361 - WD),  # -0.3170689, negatively skewed data "sqrt(max(x+1) - x)";
          WS_Normalized = sqrt(WS),  # 1.390244, positively skewed data "sqrt(x)";  

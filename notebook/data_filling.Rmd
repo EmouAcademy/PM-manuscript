@@ -1,0 +1,258 @@
+---
+title: "Data filling notebook"
+output: html_notebook
+---
+
+At first, we prepares the datasets by transposing it to normal distributions.
+# I. Transposing datasets to normal distributions
+## 1. Load datasets, filter each stations and assign into dataset objects.
+```{r}
+library(tidyverse)
+library(here)
+data <- read.csv("../data/processed/df.csv")
+dataTransform <- data |>
+  select(Station.name, Date, Year, Month, Day, Hour, Visibility, WD, WS, pm10, pm2.5)
+
+### change `Visibility and WD` variable "int" to "num"
+dataTransform$Visibility <- as.numeric(dataTransform$Visibility)
+dataTransform$WD <- as.numeric(dataTransform$WD)
+
+df_UB <- data |>
+  filter(Station.name=="UB")
+df_DZ <- data |>
+  filter(Station.name=="DZ")
+df_SS <- data |>
+  filter(Station.name=="SS")
+df_ZU <- data |>
+  filter(Station.name=="ZU")
+```
+
+## 2. Check skewness to detect whether it is positively skewed, or negatively skewed.
+
+```{r}
+### 1. Check skewness to detect whether it is positively skewed, or negatively skewed.
+library(moments)
+skewness(df_ZU$Visibility, na.rm = TRUE) ### -1.661681, -1.344332, -0.881717, -4.724538, -1.401889
+skewness(df_ZU$WD, na.rm = TRUE)  ### -0.4325835, 0,002674744, -0.7307861, -0.8549079, -0.3170689
+skewness(df_ZU$WS, na.rm = TRUE)  ### 2.090158, 1.376805, 3.401697, 1.027718, 1.390244
+skewness(df_ZU$pm10, na.rm = TRUE)  ### -1.661681, 4.142555, 8.612916, 89.21587, 10.81432
+skewness(df_ZU$pm2.5, na.rm = TRUE)  ### 5.354227, 3.654768, 5.098534, 19.46194, 7.515332
+```
+## 3. Transform data to Normal distribution according to the skewness.
+```{r}
+
+### 2. Transform data to Normal distribution according to the skewness.
+### |a. square-root for moderate skew:
+        ## positively skewed data "sqrt(x)"; 
+        ## negatively skewed data "sqrt(max(x+1) - x)";  
+### ||b. square-root for greater skew:
+        ## positively skewed data "log10(x)"; 
+        ## negatively skewed data "log10(max(x+1) - x)";
+### |||c. square-root for extreme skew:
+        ## positively skewed data "1/(x)"; 
+        ## negatively skewed data "1/(max(x+1) - x)"; 
+
+df_UB_norm <- dataTransform |>
+  filter(Station.name=="UB") |>
+  mutate(Visibility_Normalized = sqrt(20001 - Visibility), # -1.344332, negatively skewed data "sqrt(max(x+1) - x)";  
+         WD_Normalized = sqrt(WD),  # 0,002674744, positively skewed data "sqrt(x)"; 
+         WS_Normalized = sqrt(WS),  # 1.376805, positively skewed data "sqrt(x)"; 
+         pm10_Normalized = sqrt(pm10),  # 4.142555, positively skewed data "sqrt(x)"; 
+         pm2.5_Normalized = sqrt(pm2.5) # 3.654768, positively skewed data "sqrt(x)"; 
+          )
+
+df_DZ_norm <- dataTransform |>
+  filter(Station.name=="DZ") |>
+  mutate(Visibility_Normalized = sqrt(20001 - Visibility), # -0.881717, negatively skewed data "sqrt(max(x+1) - x)";  
+         WD_Normalized = sqrt(361 - WD), #-0.7307861, negatively skewed data "sqrt(max(x+1) - x)";  
+         WS_Normalized = sqrt(WS), # 3.401697, positively skewed data "sqrt(x)"; 
+         pm10_Normalized = sqrt(pm10), # 8.612916, positively skewed data "sqrt(x)"; 
+         pm2.5_Normalized = sqrt(pm2.5)  # 5.098534, positively skewed data "sqrt(x)"; 
+  )
+
+df_SS_norm <- dataTransform |>
+  filter(Station.name=="SS") |> 
+  mutate(Visibility_Normalized = sqrt(20001 - Visibility),  #  -4.724538, negatively skewed data "sqrt(max(x+1) - x)";  
+         WD_Normalized = sqrt(361 - WD), # -0.8549079, negatively skewed data "sqrt(max(x+1) - x)";  
+         WS_Normalized = sqrt(WS), # 1.027718, positively skewed data "sqrt(x)"; 
+         pm10_Normalized = sqrt(pm10), # 89.21587, positively GREATER skewed data "log10(x)"; 
+         pm2.5_Normalized = sqrt(pm2.5)  # 19.46194, positively skewed data "sqrt(x)"; 
+  )
+
+
+df_ZU_norm <- dataTransform |>
+  filter(Station.name=="ZU") |>
+  mutate(Visibility_Normalized = sqrt(20001 - Visibility), # -1.401889, negatively skewed data "sqrt(max(x+1) - x)";
+         WD_Normalized = sqrt(361 - WD),  # -0.3170689, negatively skewed data "sqrt(max(x+1) - x)";
+         WS_Normalized = sqrt(WS),  # 1.390244, positively skewed data "sqrt(x)";  
+         pm10_Normalized = sqrt(pm10), # 10.81432, positively skewed data "sqrt(x)"; 
+         pm2.5_Normalized = sqrt(pm2.5) # 7.515332, positively skewed data "sqrt(x)"; 
+  )
+```
+## 4. Combine transformed datasets into a SINGLE dataset
+```{r}
+df_dataTransform <- df_UB_norm |> 
+                    bind_rows(df_DZ_norm) |> 
+                    bind_rows(df_SS_norm) |> 
+                    bind_rows(df_ZU_norm)
+```
+
+# II. Fill the datasets with MICE package
+```{r}
+library(mice)
+######### 1. Compute mice to fill missing data
+#### UB
+df_UB_mice_imp <- mice(df_UB_norm)
+df_UB_comp <- complete(df_UB_mice_imp)
+
+#### DZ
+df_DZ_mice_imp <- mice(df_DZ_norm)
+df_DZ_comp <- complete(df_DZ_mice_imp)
+
+
+#### SS
+df_SS_mice_imp <- mice(df_SS_norm)
+df_SS_comp <- complete(df_SS_mice_imp)
+
+#### ZU
+df_ZU_mice_imp <- mice(df_ZU_norm)
+df_ZU_comp <- complete(df_ZU_mice_imp)
+```
+
+# III. Denormalize the calculated/filled values to retrieve the filled values
+## Denormalize the values
+```{r}
+######### 1. deNormalize dataset
+#### UB
+# DE-NORMALIZE
+df_UB_comp_deNormalized <- df_UB_comp |>
+  mutate(
+    # Visibility_Normalized = sqrt(20001 - Visibility), # -1.344332, negatively skewed data "sqrt(max(x+1) - x)"; 
+    Visibility_deNormalized = 20001 - Visibility_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  WD_Normalized = sqrt(WD),  # 0,002674744, positively skewed data "sqrt(x)"; 
+    WD_deNormalized = WD_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  WS_Normalized = sqrt(WS),  # 1.376805, positively skewed data "sqrt(x)"; 
+    WS_deNormalized = WS_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  pm10_Normalized = sqrt(pm10),  # 4.142555, positively skewed data "sqrt(x)"; 
+    pm10_deNormalized = pm10_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  pm2.5_Normalized = sqrt(pm2.5) # 3.654768, positively skewed data "sqrt(x)"; 
+    pm2.5_deNormalized = pm2.5_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+  )
+
+#### DZ
+# DE-NORMALIZE
+df_DZ_comp_deNormalized <- df_DZ_comp |>
+  mutate(
+    # Visibility_Normalized = sqrt(20001 - Visibility), # -0.881717, negatively skewed data "sqrt(max(x+1) - x)"; 
+    Visibility_deNormalized = 20001 - Visibility_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # WD_Normalized = sqrt(361 - WD), #-0.7307861, negatively skewed data "sqrt(max(x+1) - x)";
+    WD_deNormalized = 361 - WD_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";    
+    
+    #  WS_Normalized = sqrt(WS), # 3.401697, positively skewed data "sqrt(x)"; 
+    WS_deNormalized = WS_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # pm10_Normalized = sqrt(pm10), # 8.612916, positively skewed data "sqrt(x)"; 
+    pm10_deNormalized = pm10_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  pm2.5_Normalized = sqrt(pm2.5)  # 5.098534, positively skewed data "sqrt(x)"; 
+    pm2.5_deNormalized = pm2.5_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+  )
+
+#### SS
+# DE-NORMALIZE
+df_SS_comp_deNormalized <- df_SS_comp |>
+  mutate(
+    #Visibility_Normalized = sqrt(20001 - Visibility),  #  -4.724538, negatively skewed data "sqrt(max(x+1) - x)";        Visibility_deNormalized = 20001-Visibility_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # WD_Normalized = sqrt(361 - WD), # -0.8549079, negatively skewed data "sqrt(max(x+1) - x)";  
+    WD_deNormalized = 361 - WD_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # WS_Normalized = sqrt(WS), # 1.027718, positively skewed data "sqrt(x)"; 
+    WS_deNormalized = WS_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # pm10_Normalized = sqrt(pm10), # 89.21587, positively GREATER skewed data "log10(x)"; 
+    pm10_deNormalized = pm10_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    # pm2.5_Normalized = sqrt(pm2.5)  # 19.46194, positively skewed data "sqrt(x)"; 
+    pm2.5_deNormalized = pm2.5_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+  )
+
+#### ZU
+df_ZU_comp_deNormalized <- df_ZU_comp |>
+  mutate(
+    # Visibility_Normalized = sqrt(20001 - Visibility), # -1.401889, negatively skewed data "sqrt(max(x+1) - x)";
+    Visibility_deNormalized = 20001 - Visibility_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  WD_Normalized = sqrt(361 - WD),  # -0.3170689, negatively skewed data "sqrt(max(x+1) - x)";
+    WD_deNormalized = 361 - WD_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  WS_Normalized = sqrt(WS),  # 1.390244, positively skewed data "sqrt(x)";  
+    WS_deNormalized = WS_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  pm10_Normalized = sqrt(pm10), # 10.81432, positively skewed data "sqrt(x)"; 
+    pm10_deNormalized = pm10_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+    
+    #  pm2.5_Normalized = sqrt(pm2.5) # 7.515332, positively skewed data "sqrt(x)"; 
+    pm2.5_deNormalized = pm2.5_Normalized^2,  # 0,002674744, positively skewed data "sqrt(x)";
+  )
+```
+## Combine the de-normalized datasets into a Single datasets
+```{r}
+### 2. combine imputed data into a SINGLE dataset
+df_dataImputed <- df_UB_comp_deNormalized |> 
+  bind_rows(df_DZ_comp_deNormalized) |> 
+  bind_rows(df_SS_comp_deNormalized) |> 
+  bind_rows(df_ZU_comp_deNormalized)
+```
+
+# IV. Combine 2 datasets (input data at I. and filled data from III.) into a single dataset
+```{r}
+## - df_dataTransform
+## - df_imputed (de-normalized)
+
+# Version 1. cbind, rbind
+df_combined <- cbind(df_dataTransform, df_dataImputed1)
+
+# Version 2. [dplyr:: bind_rows or bind_cols] Bind any number of data frames by row, making a longer result. 
+# This is similar to do.call(rbind, dfs), 
+# but the output will contain all columns that appear in any of the inputs.
+df_combined_01 <- df_dataTransform |> 
+  bind_cols(df_dataImputed1) 
+```
+
+<!-- Now extract the data for the use -->
+
+# Prepare the filled data for the further use.
+```{r}
+df_filled <- df_combined |>
+                      rename(Station.name = Station.name...1,
+                             Date = Date...2,
+                             Year = Year...3,
+                             Month = Month...4,
+                             Day = Day...5,
+                             Hour = Hour...6,
+                             Visibility = Visibility...7,
+                             WD = WD...8,
+                             WS = WS...9,
+                             pm10 = pm10...10,
+                             pm2.5 = pm2.5...11, # 12-22 skip
+                             Visibility.f = Visibility...23, # 12-22 skip
+                             WD.f = WD...24,
+                             WS.f = WS...25,
+                             pm10.f = pm10...26,
+                             pm2.5.f = pm2.5...27,
+                             WD_deN.f = WD_deNormalized,
+                             WS_deN.f = WS_deNormalized,
+                             pm10_deN.f = pm10_deNormalized,
+                             pm2.5_deN.f = pm2.5_deNormalized)
+
+write.csv(df_filled, file='../data/processed/df_filled.csv')
+```
+
+
+
