@@ -79,6 +79,36 @@ daily_data <- data |>
 
 
 ########################### Plotting
+p3_annual_02 <- data |>
+  ggplot(aes(Month, pm2.5*1000)) +
+  geom_bar(stat = 'summary', position=position_dodge(width=0.9), alpha=0.5)+
+  geom_boxplot(aes(Month, pm2.5*1000, group = Month), width=0.3, outlier.size=0) +
+#  geom_violin(aes(Month, pm10*1000, group = Month, fill=pm2.5*1000),  position= position_nudge(x=.2), width=0.35, size=0.3) +
+  theme_bw()+
+  #  theme(axis.text.x=element_text(angle = 90)) +
+  #  geom_jitter(aes(shape=Station.name, color=Station.name), width = 0, height = 0)+
+  # coord_flip() +
+  facet_wrap(~Station.name,  scales = 'free', ncol=1) +
+  #coord_cartesian(ylim = c(0, 1000)) +
+  theme(strip.text.x = element_blank(), axis.title.y = element_blank(), 
+        legend.position = c(.83, 0.18),
+        #legend.position="none",
+        legend.key.size = unit(.3, 'cm'), 
+        legend.key.height = unit(.2, 'cm'), 
+        legend.direction="horizontal",
+        legend.title = element_text(size=7), #change legend title font size
+        legend.title.align = 1,
+        legend.text = element_text(size=7),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  #  scale_x_discrete(limits= c(0:23)) +
+  scale_y_continuous(breaks = c(50,100, 200)) +
+  scale_y_continuous(breaks = seq(0,800,100), limits = c(0,800)) +
+  scale_y_break(c(120,700), scale= 0.18, space = 0.4, ticklabels = c(seq(50,800,350), 700),
+                expand = c(0, 0))
+
+
+
 
 
 

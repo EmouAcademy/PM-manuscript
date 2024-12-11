@@ -137,8 +137,15 @@ p3 <- p3 +
 
 ########################### Output
 
+#### Fig3-1_spatialVariations
+fig3_1_01 <- grid.arrange(p3, p4, ncol = 1, heights=c(1.3,1))
+ggsave("visuals/fig3_1_comparison_site.png", fig3_1_01, width=4, height=5, unit="in", dpi = 300)
 
-ggsave("visuals/fig3_1_comparison_sites.png", p3_daily_01, width=8, height=5, unit="in", dpi = 300)
+# fig3_1_01 <- grid.arrange(fig3_1_01, p3_spatial, ncol = 2)
+# ggsave("fig3_1_spatialVariations_ab.png", fig3_1_01, width=8, height=5, unit="in", dpi = 300)
+# ggsave("fig3_1_spatialVariations_b.png", p3_spatial, width=4, height=5, unit="in", dpi = 300)
+# 
+# ggsave("visuals/fig3_1_comparison_sites.png", p3_daily_01, width=8, height=5, unit="in", dpi = 300)
 
 
 

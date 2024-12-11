@@ -75,4 +75,4 @@ p3_daily_01 <- p3_daily_01 +
 
 p3_daily_01 
 
-ggsave("visuals/fig3_2_hourly_01.png", p3_daily_01, width=8, height=5, unit="in", dpi = 300)
+ggsave("visuals/fig3_2_hourly.png", p3_daily_01, width=8, height=5, unit="in", dpi = 300)
