@@ -36,6 +36,7 @@
 # b) fill the data with the median/mean or with the some relations
 # c) Search for the suitable... method
 #############################################################################
+#!/usr/bin/env Rscript
 library(tidyverse)
 library(ggplot2)
 library(VIM)

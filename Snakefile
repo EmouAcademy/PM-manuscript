@@ -6,6 +6,8 @@ rule df_remove_spikes:
         "data/processed/df.csv"
     conda:
         "environment.yml"
+    resources:
+        shell_exec="zsh"
     shell:
         """
         {input.r_script}
