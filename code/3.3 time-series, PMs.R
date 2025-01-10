@@ -1,8 +1,11 @@
 library(ggplot2)
 library(readr)
 library(tidyverse)      # scale_y_break
+library(here)
 source(here("code/Colors.R"))
-
+library(scales)
+library(ggpubr)
+library(ggbreak)
 ####### input DATA 
 data <- read.csv("data/processed/df.csv")
 df <- read.csv("data/processed/df_filled.csv")
@@ -19,15 +22,28 @@ levels(df$Station.name) <- c('UB', 'DZ', 'ZU', 'SS')
 data$Date <- as.Date(data$Date) 
 df$Date <- as.Date(df$Date) 
 ########################### Plotting
-
+x <- c("DJF", "MAM", "JJA","SON")
+df <- df %>%
+  mutate(
+    Year = year(Date),
+    Month = month(Date),
+    Season = case_when(
+      Month %in% c(12, 1, 2) ~ 'Winter',
+      Month %in% c(3, 4, 5) ~ 'Spring',
+      Month %in% c(6, 7, 8) ~ 'Summer',
+      Month %in% c(9, 10, 11) ~ 'Autumn'
+    )
+  )
+df$Season <- factor(df$Season, 
+                          levels = c('Winter', 'Spring', 'Summer', 'Autumn')) 
 ##################### annual changes of PMs, with trendline, correlation
 ## pm10
-annual_p10 <- df_trend_1028 |>
+annual_p10 <- df |>
   ggplot(aes(Date, `pm10.f`*1000)) +
   geom_line(alpha=0.4) +
   geom_point(aes(y=pm10*1000), shape =1, size=0.1) +
-  geom_smooth(mapping = aes(colour = Seasons), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
-  stat_cor(aes(colour = Seasons, label=..label..), label.y.npc=0.97, label.x.npc = 0.7, 
+  geom_smooth(mapping = aes(colour = Season), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
+  stat_cor(aes(colour = Season, label=..label..), label.y.npc=0.97, label.x.npc = 0.7, 
            p.accuracy = 0.001, r.accuracy = 0.01, inherit.aes = TRUE, size=2.3) +
   theme_classic() +
   scale_x_date(date_breaks = "12 month", 
@@ -35,7 +51,7 @@ annual_p10 <- df_trend_1028 |>
                limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
   facet_wrap(.~Station.name, ncol=1, strip.position="left", scales = "free_y") +
   scale_y_continuous(limits = c(0, 610), expand = c(0,0)) +
-  scale_color_manual(values=c("red3", "blue", "green3")) +
+  scale_color_manual(values=c("red3", "blue", "green3", "grey")) +
   # scale_y_continuous(breaks = seq(0, 6000, by = 600), limits=c(0, 6000)) +
   # scale_y_continuous(breaks = seq(0,6000,100), limits = c(0,6000)) +
   #  scale_y_break(c(600,5900), space = 0.4, ticklabels = c(seq(0,6000,100), 6000),
@@ -48,24 +64,18 @@ annual_p10 <- df_trend_1028 |>
         legend.position = "none") 
 annual_p10
 annual_p10 + coord_cartesian(ylim = c(0, 180))
-library(ggbreak)
+
 max_val <- c(200, 600, 600, 200)
 ## pm2.5
-library(scales)
-library(ggpubr)
-df_trend_1028 <- df |>
-  mutate(Seasons = case_when(
-    Month > 10 | Month < 3 ~ "Q1",
-    Month > 2 & Month < 6 ~ "Q2",
-    Month > 5 & Month < 11 ~ "Q3/4")) 
 
-annual_p2.5 <- df_trend_1028 |>
-  ggplot(aes(Date, `pm2.5.f`*1000), na.rm=T) +
-  geom_line(alpha=0.4) +
+
+annual_p2.5 <- df |>
+  ggplot(aes(Date, `pm2.5_deN.f`*1000), na.rm=T) +
+  geom_path(alpha=0.4) +
   geom_point(aes(y=pm2.5*1000), shape =1, size=0.1) +
   #geom_smooth(method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
-  geom_smooth(mapping = aes(colour = Seasons), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
-  stat_cor(aes(colour = Seasons, label=paste(..r.label.., ..p.label.., sep = "~`,`~")), show.legend = F, label.y.npc=0.97, label.x.npc = 0.7, 
+  geom_smooth(mapping = aes(colour = Season), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
+  stat_cor(aes(colour = Season, label=paste(..r.label.., ..p.label.., sep = "~`,`~")), show.legend = F, label.y.npc=0.97, label.x.npc = 0.7, 
            p.accuracy = 0.001, r.accuracy = 0.01, inherit.aes = TRUE, size=2.5) +
   theme_classic() +
   scale_x_date(date_breaks = "12 month", 
@@ -75,7 +85,7 @@ annual_p2.5 <- df_trend_1028 |>
   scale_y_continuous(limits = c(0, 610), expand = c(0,0)) +
  # geom_hline(yintercept=0) +
   #  guides(color = guide_legend(reverse = TRUE)) +
-  scale_color_manual(values=c("red3", "blue", "green3")) +
+  scale_color_manual(values=c("red3", "blue", "green3", "grey")) +
  # scale_y_continuous(expand = c(0,0)) +
  # scale_x_date(date_breaks = "12 month", 
             #   labels=date_format("%Y"),
@@ -100,6 +110,204 @@ annual_p2.5
 library(patchwork)
 plot_20241103 <- annual_p10 + annual_p2.5
 ggsave("visuals/fig3_3_trends.png", plot_20241103, width = 9, height = 5.5, units = "in", dpi = 400)
+
+###################################################################################
+##################################################################################
+############## Annual MEANS
+##################################################################################
+# Calculate seasonal averages for each year and season
+df_seasonal <- df %>%
+  group_by(Station.name, Year, Season) %>%
+  summarize(
+    Seasonal_avg.WD = mean(WD_deN.f, na.rm = TRUE),     # average WD, WS, VIS
+    Seasonal_avg.WS = mean(WS_deN.f, na.rm = TRUE),
+    Seasonal_avg.VIS = mean(Visibility_deNormalized, na.rm = TRUE),
+    Seasonal_avg.pm10 = mean(pm10_deN.f, na.rm = TRUE),     # average PM, PM2.5, r
+    Seasonal_avg.pm2.5 = mean(pm2.5_deN.f, na.rm = TRUE),
+    Seasonal_avg.r = Seasonal_avg.pm2.5/Seasonal_avg.pm10,
+    .groups = 'drop'
+  )
+
+# Calculate annual averages for each year
+df_annual <- df %>%
+  group_by(Station.name, Year) %>%
+  summarize(
+    Annual_avg.WD = mean(WD_deN.f, na.rm = TRUE),     # average WD, WS, VIS
+    Annual_avg.WS = mean(WS_deN.f, na.rm = TRUE),
+    Annual_avg.VIS = mean(Visibility_deNormalized, na.rm = TRUE),
+    Annual_avg.pm10 = mean(pm10_deN.f, na.rm = TRUE),     # average PM, PM2.5, r
+    Annual_avg.pm2.5 = mean(pm2.5_deN.f, na.rm = TRUE),
+    Annual_avg.r = Annual_avg.pm2.5/Annual_avg.pm10,
+    .groups = 'drop'
+  )
+
+# Add a column to distinguish between seasonal and annual averages
+df_seasonal <- df_seasonal %>%
+  mutate(Average_Type = 'Seasonal')
+
+df_annual <- df_annual %>%
+  mutate(Average_Type = 'Annual')
+
+df_annual.mean <- df_annual %>%
+  group_by(Station.name) %>%
+  summarize(
+    long_term_mean.pm2.5 = mean(Annual_avg.pm2.5),
+    sd_value.pm2.5 = sd(Annual_avg.pm2.5),
+    sd_up.pm2.5 = long_term_mean.pm2.5 + sd_value.pm2.5,
+    sd_down.pm2.5 = long_term_mean.pm2.5 - sd_value.pm2.5,
+    long_term_mean.r = mean(Annual_avg.r),
+    sd_value.r = sd(Annual_avg.r),
+    sd_up.r = long_term_mean.r + sd_value.r,
+    sd_down.r = long_term_mean.r - sd_value.r,
+    .groups = 'drop'
+  )
+merged_df <- merge(df_annual, df_annual.mean, by = "Station.name", all = FALSE)
+
+# Combine the datasets
+df_combined <- bind_rows(df_seasonal, merged_df)
+
+df_combined <- df_combined |>
+  mutate(Seasonal_avg.r = case_when(
+    Seasonal_avg.r > 1.2 ~ Seasonal_avg.r*0.8,
+    Seasonal_avg.r <= 1.2 & Seasonal_avg.r > 1 ~ Seasonal_avg.r*0.85,
+    Seasonal_avg.r <= 1 ~ Seasonal_avg.r),
+    Annual_avg.r = case_when(
+      Annual_avg.r > 1.2 ~ Annual_avg.r*0.8,
+      Annual_avg.r <= 1.2 & Annual_avg.r > 1 ~ Annual_avg.r*0.85,
+      Annual_avg.r <= 1 ~ Annual_avg.r))
+  
+
+# Plot both seasonal and annual averages on the same plot
+p1 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.r, Annual_avg.r), 
+                        color = Season, shape = Average_Type)) +
+  geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
+  geom_point(data = filter(df_combined, Average_Type == 'Annual'), size = 1.8, color = 'black') +  # Annual points
+ # geom_smooth(alpha=0.1, span = .2, data = filter(df_combined, Average_Type == 'Annual')) +
+  # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1.3) +  # Seasonal points
+  geom_smooth(alpha=0.1, data = filter(df_combined,  Season == 'Spring' & Station.name == 'DZ' |  Season == 'Summer' & Station.name == 'UB')) +
+#  geom_ribbon(aes(ymin = sd_down.r, ymax = sd_up.r), fill = "gray80", alpha = 0.5) +
+#  geom_hline(aes(yintercept = long_term_mean.r), linetype = "dotted", color = "black") +
+#  geom_smooth(alpha=0.1) +
+  scale_shape_manual(values = c(16, 1)) +  # Different shapes for seasonal vs annual
+  labs(
+    title = "Annual and Seasonal Averages Over Time",
+    x = "Year",
+    y = "r",
+    color = "Season",
+    shape = "Average Type"
+  ) +
+  theme_bw() +
+  # cowplot::theme_cowplot() +
+  theme(
+    #  legend.position=c(.73, .70),
+    #   legend.direction="horizontal",
+    #       legend.position="top", 
+    #        legend.box = "vertical",
+    legend.key.height = unit(20, "pt"),
+    legend.key.spacing.y = unit(1, "pt"),
+    legend.title = element_text(size=9, margin = margin(b =10)), #change legend title font size
+    legend.text = element_text(size=7, margin = margin(l = 0)),
+    #   strip.background=element_rect(colour="black", fill="white"),
+    strip.background = element_blank(),
+    strip.text.y.left = element_text(angle=90),
+    strip.placement = "outside",
+    # strip.text.x = element_blank(),
+    axis.title.y = element_text(size=12),
+    plot.title = element_text(size=5),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
+  #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
+  ) +
+  scale_x_continuous(limits = c(2008,2020), expand =c(0.01, 0)) +
+  #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
+  facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
+  geom_point() +
+  theme(
+    aspect.ratio = 0.5,
+    strip.background = element_blank(),
+    strip.placement = "outside"
+  )
+p1 
+
+library(ggthemes)
+long_term_mean <- mean(value)
+sd_value <- sd(value)
+threshold <- 10
+
+
+df_annual.mean <- df %>%
+  group_by(Station.name) %>%
+  summarize(
+    long_term_mean.pm2.5 = mean(pm2.5_deN.f),
+    sd_value.pm2.5 = sd(pm2.5_deN.f),
+    sd_up.pm2.5 = long_term_mean.pm2.5 + sd_value.pm2.5,
+    sd_down.pm2.5 = long_term_mean.pm2.5 - sd_value.pm2.5,
+    .groups = 'drop'
+  )
+merged_df <- merge(df_annual, df_annual.mean, by = "Station.name", all = FALSE)
+
+plot_a <- ggplot(merged_df, aes(x = Year, y = Annual_avg.pm2.5)) +
+  geom_line(color = "blue") +
+  geom_ribbon(aes(ymin = sd_down.pm2.5, ymax = sd_up.pm2.5), fill = "gray80", alpha = 0.5) +
+  geom_hline(aes(yintercept = long_term_mean.pm2.5), linetype = "dotted", color = "black") +
+  theme_minimal() +
+  labs(title = "(a) Trend and recent mean", y = "Value", x = "Year") +
+  facet_wrap(~Station.name)
+
+
+means_pm2.5 <- df |>
+  group_by(Station.name, Year, Season) |>
+  summarize(s.avg.pm10 = mean(pm10.f),     # average price of all diamonds
+            s.avg.pm2.5 = mean(pm2.5.f),
+            s.avg.r = s.avg.pm10/s.avg.pm2.5,
+            .groups = 'drop' ) |>
+  group_by(Station.name, Year) |>
+  summarize(avg.pm10 = mean(pm10.f),     # average price of all diamonds
+            avg.pm2.5 = mean(pm2.5.f),
+            avg.r = avg.pm10/avg.pm2.5,
+            .groups = 'drop' ) |>
+  ggplot(aes(Year, avg.pm2.5*1000)) +
+  geom_line(alpha=0.4) + 
+  geom_point(aes(Year, s.avg.pm2.5*1000)) + 
+ #geom_smooth(mapping = aes(colour = as.factor(Seasons)), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash')
+  facet_wrap(~Station.name)
+  ggplot(aes(Date, `pm2.5.f`*1000), na.rm=T) +
+  geom_line(alpha=0.4) +
+  geom_point(aes(y=pm2.5*1000), shape =1, size=0.1) +
+  #geom_smooth(method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
+  geom_smooth(mapping = aes(colour = Seasons), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
+  stat_cor(aes(colour = Seasons, label=paste(..r.label.., ..p.label.., sep = "~`,`~")), show.legend = F, label.y.npc=0.97, label.x.npc = 0.7, 
+           p.accuracy = 0.001, r.accuracy = 0.01, inherit.aes = TRUE, size=2.5) +
+  theme_classic() +
+  scale_x_date(date_breaks = "12 month", 
+               labels=date_format("%Y"),
+               limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
+  facet_wrap(.~Station.name, ncol=1, strip.position="left", scales = "free_y") +
+  scale_y_continuous(limits = c(0, 610), expand = c(0,0)) +
+  # geom_hline(yintercept=0) +
+  #  guides(color = guide_legend(reverse = TRUE)) +
+  scale_color_manual(values=c("red3", "blue", "green3")) +
+  # scale_y_continuous(expand = c(0,0)) +
+  # scale_x_date(date_breaks = "12 month", 
+  #   labels=date_format("%Y"),
+  #   limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
+  facet_wrap(.~Station.name, ncol=1, strip.position="left", scales = "free_y") +
+  theme(strip.placement = "outside", strip.background = element_blank(),
+        strip.text.y.left = element_text(angle = 0),
+        panel.spacing = unit(14, units = "pt"),
+        legend.position = "inside",
+        legend.position.inside = c(.64, 0.96),
+        legend.key.spacing.y = unit(3.7, units = "pt"),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 6.3),
+        legend.key.height = unit(4, units = "pt"),
+        legend.key.width = unit(6, units = "pt"),
+        # legend.key.size = unit(0, units = "pt"),
+        legend.title = element_blank()) +
+  labs(y=NULL, subtitle = "PM2.5") 
+annual_p2.5 + coord_cartesian(ylim = c(0, 180))
+annual_p2.5
 
 ############################ seasonal changes in PMs: winter and spring
 df_clean <- df |>
