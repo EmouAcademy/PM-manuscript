@@ -16,7 +16,7 @@ levels(data$Station.name) <- c('UB', 'DZ', 'ZU', 'SS')
 
 df <- read.csv("data/processed/df_filled.csv")
 df$Station.name <- factor(df$Station.name, 
-                            levels = c("UB", "DZ",  "ZU", "SS"))  
+                          levels = c("UB", "DZ",  "ZU", "SS"))  
 levels(df$Station.name) <- c('UB', 'DZ', 'ZU', 'SS')
 
 data$Date <- as.Date(data$Date) 
@@ -35,7 +35,7 @@ df <- df %>%
     )
   )
 df$Season <- factor(df$Season, 
-                          levels = c('Winter', 'Spring', 'Summer', 'Autumn')) 
+                    levels = c('Winter', 'Spring', 'Summer', 'Autumn')) 
 ##################### annual changes of PMs, with trendline, correlation
 ## pm10
 annual_p10 <- df |>
@@ -83,13 +83,13 @@ annual_p2.5 <- df |>
                limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
   facet_wrap(.~Station.name, ncol=1, strip.position="left", scales = "free_y") +
   scale_y_continuous(limits = c(0, 610), expand = c(0,0)) +
- # geom_hline(yintercept=0) +
+  # geom_hline(yintercept=0) +
   #  guides(color = guide_legend(reverse = TRUE)) +
   scale_color_manual(values=c("red3", "blue", "green3", "grey")) +
- # scale_y_continuous(expand = c(0,0)) +
- # scale_x_date(date_breaks = "12 month", 
-            #   labels=date_format("%Y"),
-            #   limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
+  # scale_y_continuous(expand = c(0,0)) +
+  # scale_x_date(date_breaks = "12 month", 
+  #   labels=date_format("%Y"),
+  #   limits = as.Date(c('2008-03-01','2020-03-01')), expand =c(0.01,0.01)) +
   facet_wrap(.~Station.name, ncol=1, strip.position="left", scales = "free_y") +
   theme(strip.placement = "outside", strip.background = element_blank(),
         strip.text.y.left = element_text(angle = 0),
@@ -175,6 +175,28 @@ df_annual.mean <- df_annual %>%
   )
 merged_df <- merge(df_annual, df_annual.mean, by = "Station.name", all = FALSE)
 
+df_annual.5mean <- df_annual %>%
+  group_by(Station.name) %>%
+  summarize(
+    long_term_mean.VIS = mean(Annual_avg.VIS),
+    sd_value.VIS = sd(Annual_avg.VIS),
+    sd_up.VIS = long_term_mean.VIS + sd_value.VIS,
+    sd_down.VIS = long_term_mean.VIS - sd_value.VIS,
+    long_term_mean.pm10 = mean(Annual_avg.pm10),
+    sd_value.pm10 = sd(Annual_avg.pm10),
+    sd_up.pm10 = long_term_mean.pm10 + sd_value.pm10,
+    sd_down.pm10 = long_term_mean.pm10 - sd_value.pm10,
+    long_term_mean.pm2.5 = mean(Annual_avg.pm2.5),
+    sd_value.pm2.5 = sd(Annual_avg.pm2.5),
+    sd_up.pm2.5 = long_term_mean.pm2.5 + sd_value.pm2.5,
+    sd_down.pm2.5 = long_term_mean.pm2.5 - sd_value.pm2.5,
+    long_term_mean.r = mean(Annual_avg.r),
+    sd_value.r = sd(Annual_avg.r),
+    sd_up.r = long_term_mean.r + sd_value.r,
+    sd_down.r = long_term_mean.r - sd_value.r,
+    .groups = 'drop'
+  )
+
 # Combine the datasets
 df_combined <- bind_rows(df_seasonal, merged_df)
 
@@ -187,32 +209,46 @@ df_combined <- df_combined |>
       Annual_avg.r > 1.2 ~ Annual_avg.r*0.8,
       Annual_avg.r <= 1.2 & Annual_avg.r > 1 ~ Annual_avg.r*0.85,
       Annual_avg.r <= 1 ~ Annual_avg.r))
-  
+
+df_combined_add <-  df_combined |>
+  filter(Station.name == "UB") |>
+  mutate(al_avg.r = case_when(
+    Year < 2014 ~ mean(Seasonal_avg.r[Year < 2014]),
+    Year > 2014 ~ mean(Seasonal_avg.r)))
+,
+    Seasonal_avg.r <= 1 ~ Seasonal_avg.r),
+    Annual_avg.r = case_when(
+      Annual_avg.r > 1.2 ~ Annual_avg.r*0.8,
+      Annual_avg.r <= 1.2 & Annual_avg.r > 1 ~ Annual_avg.r*0.85,
+      Annual_avg.r <= 1 ~ Annual_avg.r))
 
 # Plot both seasonal and annual averages on the same plot
 p1_ratio <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.r, Annual_avg.r), 
-                        color = Season, shape = Average_Type)) +
+                                    color = Season, shape = Average_Type)) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
              cex = 1.5) +  # Annual points
- geom_smooth(alpha=0.2, method = "lm", data = filter(df_combined, Average_Type == 'Annual' & Station.name == "SS")) +
+  geom_smooth(alpha=0.2, method = "lm", data = filter(df_combined, Average_Type == 'Annual' & Station.name == "SS")) +
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1.) +  # Seasonal points
-  geom_smooth(alpha=0.2, data = filter(df_combined,  Season == 'Spring' & Station.name == 'DZ' ), size=0.3, span=.6, aes(color=Season)) +
-#  geom_line(data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' ), size=0.5) +
- geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' & Year >=2015), size=0.1) +
-#  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual' & Station.name == 'UB' & Year >=2015), size=0.1) +
-#  geom_ribbon(aes(ymin = sd_down.r, ymax = sd_up.r), fill = "gray80", alpha = 0.5) +
- geom_hline( data = filter(df_combined, Average_Type == 'Annual' & Station.name != "SS"),
-             aes(yintercept = long_term_mean.r), linetype = "dotted", color = "black") +
-#  geom_smooth(alpha=0.1) +
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 0.5, linetype = "dotted") +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 0.5) +  # Seasonal points
+geom_smooth(alpha=0.2, data = filter(df_combined,  Season == 'Spring' & Station.name == 'DZ' ), size=0.3) +
+  #  geom_line(data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' ), size=0.5) +
+  geom_smooth(se = FALSE, span=1, data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' & Year >=2015), size=0.5) +
+  #  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual' & Station.name == 'UB' & Year >=2015), size=0.1) +
+  #  geom_ribbon(aes(ymin = sd_down.r, ymax = sd_up.r), fill = "gray80", alpha = 0.5) +
+  geom_hline( data = filter(df_combined, Average_Type == 'Annual' & Station.name != "SS"),
+              aes(yintercept = long_term_mean.r), linetype = "dotted", color = "black") +
+  #  geom_smooth(alpha=0.1) +
   scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
-  scale_color_viridis(discrete = TRUE, option = "D")+
+  scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
+                      end = 1,
+                      direction = 1)+
   scale_fill_viridis(discrete = TRUE) +
   labs(
     title = "r-Ratio",
     x = "Year",
-   y = " ",
+    y = " ",
     color = "Season",
     shape = "Average Type"
   ) +
@@ -236,32 +272,37 @@ p1_ratio <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
     plot.title = element_text(size=11),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
-  #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
+    #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 2), limits = c(2008,2020), expand =c(0.01, 0.01)) +
-  #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008,2020), expand =c(0.01, 0.01)) +
+  scale_y_continuous(limits = c(min, max), expand =c(0.01, 0)) +
+  scale_y_continuous(expand = c(0,0))+
+  #scale_y_continuous(limits = c(.4,1.3), data = filter(df_combined, Station.name == 'UB' ), expand = c(0,0))+
+expand_limits(y = c(min(df_combined$Seasonal_avg.r),1.5 * max(df_combined$Seasonal_avg.r))) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
   geom_point() +
   theme(
- #   aspect.ratio = 0.5,
+    #   aspect.ratio = 0.5,
     strip.background = element_blank(),
     strip.placement = "outside"
   )
 p1_ratio 
 
+
 p1_WS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.WS, Annual_avg.WS), 
-                                    color = Season, shape = Average_Type)) +
+                                 color = Season, shape = Average_Type)) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
              cex = 1.5) +  # Annual points
   geom_smooth(alpha=0.2, data = filter(df_combined, Average_Type == 'Annual'), method = "lm") +
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1) +  # Seasonal points
- # geom_smooth(alpha=0., data = filter(df_combined,  Season == 'Spring' ), size = 0.3) +
+  # geom_smooth(alpha=0., data = filter(df_combined,  Season == 'Spring' ), size = 0.3) +
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 0.5, linetype = "dotted") +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 0.5) +  # Seasonal points
   # geom_ribbon(aes(ymin = sd_down.WS, ymax = sd_up.WS), fill = "gray80", alpha = 0.5) +
- # geom_hline(aes(yintercept = sd_down.WS), size=0.4, color = "lightblue3") +
- # geom_hline(aes(yintercept = sd_up.WS), size=0.4, color = "lightblue") +
-#  geom_hline(aes(yintercept = long_term_mean.WS), linetype = "dotted", color = "black") +
+  # geom_hline(aes(yintercept = sd_down.WS), size=0.4, color = "lightblue3") +
+  # geom_hline(aes(yintercept = sd_up.WS), size=0.4, color = "lightblue") +
+  #  geom_hline(aes(yintercept = long_term_mean.WS), linetype = "dotted", color = "black") +
   #  geom_smooth(alpha=0.1) +
   scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
   scale_color_viridis(discrete = TRUE, option = "D")+
@@ -295,31 +336,42 @@ p1_WS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal'
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
     #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 2), limits = c(2008,2020), expand =c(0.01, 0.01)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008,2020), expand =c(0.01, 0.01)) +
   #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
   geom_point() +
   theme(
-  #  aspect.ratio = 0.5,
+    #  aspect.ratio = 0.5,
     legend.position = "none",
     strip.background = element_blank(),
     strip.placement = "outside"
   )
 p1_WS
 
+y1 <- c(5000,10000, 15000)
+
 p1_VIS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.VIS, Annual_avg.VIS), 
-                                    color = Season, shape = Average_Type)) +
-  geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
-  geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
-             cex = 1.5) +  # Annual points
-  geom_smooth(alpha=0.2, data = filter(df_combined, Average_Type == 'Annual', Station.name == 'ZU'), method = "lm") +
+                                  color = Season, shape = Average_Type)) +
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1.) +  # Seasonal points
-  geom_smooth(alpha=0.0, data = filter(df_combined,  Season == 'Winter'), size=0.3) +
-  geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Annual_avg.VIS > long_term_mean.VIS), 
-             aes(ymin = long_term_mean.VIS, ymax = Annual_avg.VIS), fill = "lightblue") +
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 0.5, linetype = "dotted") +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 0.5) +  # Seasonal points
+#  geom_smooth(data = filter(df_combined,  Season == 'Winter'), size=0.3, alpha =0) +
+#  geom_smooth(method = "lm", data = filter(df_combined,  Season == 'Winter' & Year <2014 & Station.name =="UB"), size=0.3, alpha =0) +
+#  geom_smooth(method = "lm", data = filter(df_combined,  Season == 'Winter' & Year >=2014 & Station.name =="UB"), size=0.3, alpha =0) +
+ # geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Annual_avg.VIS > long_term_mean.VIS), 
+ #             aes(ymin = long_term_mean.VIS, ymax = Annual_avg.VIS), fill = "lightblue") +
+  geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
+#  geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
+ #            cex = 1.5) +  # Annual points
+  geom_point(data = filter(df_combined, Average_Type == 'Annual'), col = "black") +  # Annual points
+  geom_smooth(alpha=0.2, data = filter(df_combined, Average_Type == 'Annual', Station.name == 'ZU'), method = "lm") +
   geom_hline(data = filter(df_combined, Station.name == 'UB' | Station.name == 'DZ'), aes(yintercept = long_term_mean.VIS), linetype = "dotted", color = "black") +
-  scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
+  geom_text(
+            aes(x = 2007.5, y = y1 +1,
+            label = y1),
+           # stat = "unique",
+            size = 3, color = "black") +
+  scale_shape_manual(values = c(16, 16)) +  # Different shapes for seasonal vs annual
   scale_color_viridis(discrete = TRUE, option = "D")+
   scale_fill_viridis(discrete = TRUE) +
   labs(
@@ -329,7 +381,9 @@ p1_VIS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal
     color = "Season",
     shape = "Average Type"
   ) +
-  theme_bw() +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2007.5,2020)) +
+  scale_y_continuous(limits = c(5000,20000), breaks = c(6000, 12000), expand =c(0.01, 0)) +
+  theme_classic() +
   # cowplot::theme_cowplot() +
   theme(
     #  legend.position=c(.73, .70),
@@ -348,15 +402,19 @@ p1_VIS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal
     axis.title.y=element_text(angle=0,vjust=1.04, hjust=0.5,size=12),
     plot.title = element_text(size=11),
     panel.grid.minor = element_blank(),
-    panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
-    #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
+    panel.grid.major.y = element_line(color = "lightgray", linewidth = 0.25),
+    axis.line.y = element_blank(),
+    axis.line.x = element_line(color = "lightgray", linewidth = 0.25),
+    axis.ticks.x = element_line(color = "lightgray", linewidth = 0.25),
+    axis.ticks.length.x = unit(6, "pt"),
+    axis.ticks.y = element_blank(), 
+   # axis.text.y = element_blank()
+#    panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 2), limits = c(2008,2020), expand =c(0.01, 0.01)) +
-  #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
   geom_point() +
   theme(
-   # aspect.ratio = 0.5,
+    # aspect.ratio = 0.5,
     legend.position = "none",
     strip.background = element_blank(),
     strip.placement = "outside"
@@ -366,17 +424,18 @@ p1_VIS
 
 # Plot both seasonal and annual averages on the same plot
 p1_pm10 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.pm10*1000, Annual_avg.pm10*1000), 
-                                    color = Season, shape = Average_Type)) +
+                                   color = Season, shape = Average_Type)) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = 0.8, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
              cex = 1.5) +  # Annual points
   # geom_smooth(alpha=0.1, span = .2, data = filter(df_combined, Average_Type == 'Annual')) +
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1.) +  # Seasonal points
-  geom_smooth(alpha=0.1, data = filter(df_combined,  Season == 'Winter' & Station.name == 'DZ' | Season == 'Winter' & Station.name == 'UB' ), size=0.3) +
-  geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Year >=2014), 
-              aes(ymin = long_term_mean.pm10*1000, ymax = Annual_avg.pm10*1000), fill = "blue", alpha = 0.2) +
-   geom_hline(aes(yintercept = long_term_mean.pm10*1000), linetype = "dotted", color = "black") +
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 0.5, linetype = "dotted") +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 0.5) +  # Seasonal points
+#  geom_smooth(alpha=0.1, data = filter(df_combined,  Season == 'Winter' & Station.name == 'DZ' | Season == 'Winter' & Station.name == 'UB' ), size=0.3) +
+#  geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Year >=2014), 
+#              aes(ymin = long_term_mean.pm10*1000, ymax = Annual_avg.pm10*1000), fill = "blue", alpha = 0.2) +
+  geom_hline(aes(yintercept = long_term_mean.pm10*1000), linetype = "dotted", color = "black") +
   #  geom_smooth(alpha=0.1) +
   scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
   scale_color_viridis(discrete = TRUE, option = "D")+
@@ -410,7 +469,7 @@ p1_pm10 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasona
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
     #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 2), limits = c(2008,2020), expand =c(0.01, 0.01)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008,2020), expand =c(0.01, 0.01)) +
   #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
   geom_point() +
@@ -429,12 +488,12 @@ p1_pm2.5 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = 21, bg = "lightgray", col = "black", 
              cex = 1.5) +  # Annual points
   # geom_smooth(alpha=0.1, span = .2, data = filter(df_combined, Average_Type == 'Annual')) +
-  # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 1.3) +  # Seasonal points
-  geom_smooth(alpha=0.1, data = filter(df_combined,  Season == 'Winter' & Station.name == 'DZ' | Season == 'Winter' & Station.name == 'UB'), size = 0.3) +
-   geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Annual_avg.pm2.5 < long_term_mean.pm2.5 & Year >=2014), 
-               aes(ymin = long_term_mean.pm2.5*1000, ymax = Annual_avg.pm2.5*1000), fill = "blue", alpha = 0.2) +
-    geom_hline(aes(yintercept = long_term_mean.pm2.5*1000), linetype = "dotted", color = "black") +
+   geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 0.5, linetype = "dotted") +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = 0.5) +  # Seasonal points
+#  geom_smooth(se=F, data = filter(df_combined,  Season == 'Winter' & Station.name == 'DZ' | Season == 'Winter' & Station.name == 'UB'), size = 0.3) +
+#  geom_ribbon(data = filter(df_combined,  Station.name == 'UB' & Annual_avg.pm2.5 < long_term_mean.pm2.5 & Year >=2014), 
+ #             aes(ymin = long_term_mean.pm2.5*1000, ymax = Annual_avg.pm2.5*1000), fill = "blue", alpha = 0.2) +
+  geom_hline(aes(yintercept = long_term_mean.pm2.5*1000), linetype = "dotted", color = "black") +
   #  geom_smooth(alpha=0.1) +
   scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
   scale_color_viridis(discrete = TRUE, option = "D")+
@@ -468,7 +527,7 @@ p1_pm2.5 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
     #  panel.background = element_rect(fill = NA, colour = 'white', size = 0.7)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 2), limits = c(2008,2020), expand =c(0.01, 0.01)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008,2020), expand =c(0.01, 0.01)) +
   #scale_y_continuous(limits = c(.3,1.3), expand =c(0.01, 0)) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") +
   geom_point() +
@@ -483,8 +542,8 @@ p1_pm2.5
 
 
 
-plot_20250114 <- wrap_plots(p1_WS, p1_VIS, p1_pm10 , p1_pm2.5 , p1_ratio, nrow = 1)
-ggsave("visuals/fig3_3_trends_seasons.png", plot_20250114, width = 14, height = 6, units = "in", dpi = 400)
+plot_20250116 <- wrap_plots(p1_WS, p1_VIS, p1_pm10 , p1_pm2.5 , p1_ratio, nrow = 1)
+ggsave("visuals/fig3_3_trends_seasons_0116.png", plot_20250116, width = 14, height = 6, units = "in", dpi = 400)
 
 
 
@@ -557,9 +616,9 @@ means_pm2.5 <- df |>
   ggplot(aes(Year, avg.pm2.5*1000)) +
   geom_line(alpha=0.4) + 
   geom_point(aes(Year, s.avg.pm2.5*1000)) + 
- #geom_smooth(mapping = aes(colour = as.factor(Seasons)), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash')
+  #geom_smooth(mapping = aes(colour = as.factor(Seasons)), method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash')
   facet_wrap(~Station.name)
-  ggplot(aes(Date, `pm2.5.f`*1000), na.rm=T) +
+ggplot(aes(Date, `pm2.5.f`*1000), na.rm=T) +
   geom_line(alpha=0.4) +
   geom_point(aes(y=pm2.5*1000), shape =1, size=0.1) +
   #geom_smooth(method = "lm", size = 0.6, se = F, formula = y ~ x, linetype = 'longdash') +
