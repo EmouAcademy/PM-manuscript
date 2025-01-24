@@ -699,7 +699,7 @@ variability in air quality measurements across Mongolia.
 \newpage
 
 ![Distinct concentrations of coarse and fine particulates among
-sites](images/figure_3.png){width="300"}
+sites](images/figure_3.png){width="500"}
 
 1.  Compare the concentrations of PMs at UB is the 2. Significance level
     difference 3. Conclude
@@ -707,7 +707,7 @@ sites](images/figure_3.png){width="300"}
 \newpage
 
 ![Annual variations of \$PM\_{10}\$ and
-\$PM\_{2.5}\$](images/figure_4.png){width="330"}
+\$PM\_{2.5}\$](images/figure_4.png){width="530"}
 
 1.  Clear annual variations at UB and DZ from pm2.5 pollutions 2. at ZU,
     and SS has a seasonally peaks episodic spring and late autumn from
@@ -716,28 +716,31 @@ sites](images/figure_3.png){width="300"}
 \newpage
 
 ![Daily variations of $PM_{10}$ and $PM_{2.5}$ at UB and DZ
-sites](images/figure_5.png){width="300"}
+sites](images/figure_5.png){width="500"}
 
 \newpage
 \subsection{Meteorological influence on $PM_{10}$ and $PM_{2.5}$ variations}
 \label{subsec2}
 
 ![Relationships between meteorological major factors and variations of
-$PM_{10}$ and $PM_{2.5}$](images/figure_6.png){width="300"}
+$PM_{10}$ and $PM_{2.5}$](images/figure_6.png){width="500"}
 
 \newpage
 
 ![Spatio-temporal distinct feature of variations of $PM_{10}$ and
-$PM_{2.5}$ with PCA analysis](images/figure_7.png){width="200"}
+$PM_{2.5}$ with PCA analysis](images/figure_7.png){width="300"}
 
 ![Patterns of meteorology and PMs at the 4
-sites](images/figure_7b.png){width="200"}
+sites](images/figure_7b.png){width="300"}
 
 \newpage
 \subsection{Trends}
 
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](images/figure_8.png){width="300"}
+variations](images/figure_8.png){width="500"}
+
+![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+variations](../visuals/fig3_3_trends_seasons_0120c.png){width="600"}
 
 \newpage
 

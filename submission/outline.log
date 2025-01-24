@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.8)  8 JAN 2025 12:49
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.8)  22 JAN 2025 13:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,6 +768,8 @@ File: images/figure_7b.png Graphic file (type bmp)
 [24]
 File: images/figure_8.png Graphic file (type bmp)
 <images/figure_8.png>
+File: ../visuals/fig3_3_trends_seasons_0120c.png Graphic file (type bmp)
+<../visuals/fig3_3_trends_seasons_0120c.png>
 
 
 [25]
@@ -790,17 +792,17 @@ File: images/figure_2c.png Graphic file (type bmp)
 
 
 [28]
-Underfull \hbox (badness 2326) in paragraph at lines 992--992
+Underfull \hbox (badness 2326) in paragraph at lines 999--999
 []|\T1/phv/b/n/10.95 Munkhtsetseg E\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Shin-oda M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Ishizuka M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Mikami M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Kimura R\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Nikolich G\T1/phv/m/n/10.95 .
  []
 
 
-Underfull \hbox (badness 2020) in paragraph at lines 992--992
+Underfull \hbox (badness 2020) in paragraph at lines 999--999
 \T1/phv/m/n/10.95 2017. An-thro-pogenic dust emis-sions due to live-stock tram-pling in a mon-go-lian
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 992--992
+Underfull \hbox (badness 10000) in paragraph at lines 999--999
 \T1/phv/m/n/10.95 tem-per-ate grass-land. At-mo-spheric Chem-istry and Physics \T1/phv/b/n/10.95 17\T1/phv/m/n/10.95 :11389--11401.
  []
 
@@ -816,10 +818,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 18116 strings out of 475866
- 331501 string characters out of 5773353
+ 18126 strings out of 475866
+ 331927 string characters out of 5773353
  790695 words of memory out of 5000000
- 40769 multiletter control sequences out of 15000+600000
+ 40777 multiletter control sequences out of 15000+600000
  589388 words of font info for 73 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  90i,5n,122p,341b,413s stack positions out of 10000i,1000n,20000p,200000b,200000s
