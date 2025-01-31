@@ -6,6 +6,7 @@ source(here("code/Colors.R"))
 library(scales)
 library(ggpubr)
 library(ggbreak)
+library(patchwork)
 ####### input DATA 
 data <- read.csv("data/processed/df.csv")
 df <- read.csv("data/processed/df_filled.csv")
@@ -21,6 +22,8 @@ levels(df$Station.name) <- c('UB', 'DZ', 'ZU', 'SS')
 
 data$Date <- as.Date(data$Date) 
 df$Date <- as.Date(df$Date) 
+df <- df |>
+  filter(Year<2021)
 ########################### Plotting
 x <- c("DJF", "MAM", "JJA","SON")
 df <- df %>%
@@ -130,7 +133,7 @@ df_seasonal <- df %>%
 
 # Calculate 5 year means for 4 SEASONS
 df_seasonal_5year.mean <- df_seasonal %>%
-  group_by(Station.name) %>%
+  group_by(Station.name, Season) %>%
   summarize(
     I_5y_mean.WS = mean(Seasonal_avg.WS[Year<= 2013]),
     II_5y_mean.WS = mean(Seasonal_avg.WS[Year>=2014]),
@@ -164,13 +167,20 @@ df_seasonal_5year.mean <- df_seasonal %>%
     sd_down.r = long_term_seasonal_mean.r - sd_value.r,
     .groups = 'drop'
   )
+df_seasonal_5year.mean[df_seasonal_5year.mean == "NaN"] <- NA
 #######
 # Add a column to distinguish between seasonal and annual averages
 df_seasonal <- df_seasonal %>%
   mutate(Average_Type = 'Seasonal')
 
 df_seasonal_5year.mean <- df_seasonal_5year.mean %>%
-  mutate(Average_Type = 'Seasonal-5year')
+  mutate(Average_Type = ("pre - post [2014]"),
+         Year = 2020)
+
+
+
+
+
 
 merged_seasonal_df <- bind_rows(df_seasonal, df_seasonal_5year.mean)
 
@@ -228,7 +238,7 @@ df_annual.mean <- df_annual %>%
   )
 merged_annual_df <- merge(df_annual, df_annual.mean, by = "Station.name", all = FALSE)
 
-# df_5year_means[df_5year_means == "NaN"] <- NA
+
 ########
 
 # Combine the datasets
@@ -249,6 +259,14 @@ df_combined <- df_combined |>
 seasonal_color <- c('#a6611a','#dfc27d', '#80cdc1','#018571')
 seasonal_color <- c('#0072B2','#E69F00', '#009E73','#D55E00')
 seasonal_color <- c('#4E79A7','#E2C57D', '#F28E2B', '#9C755F')
+seasonal_color <- c('#1f77b4','#2ca02c', '#ff7f0e', '#8c564b')
+
+
+
+names(seasonal_color) <- unique(df_combined$Season[1:4])
+df_combined$Average_Type <- factor(df_combined$Average_Type, 
+                                   levels = c('Annual', 'Seasonal', 'pre - post [2014]')) 
+
 mean_pch = 21
 mean_bg_color = "white"
 geom_line_size_L = 0.5
@@ -257,6 +275,7 @@ geom_point_size_L = 0.8
 geom_point_size_M = 0.7
 cex_size = 0.8
 # Plot both seasonal and annual averages on the same plot
+library(ggforce)
 p1_ratio <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.r, Annual_avg.r), 
                                     color = Season, shape = Average_Type)) +
   # geom_rect(data = filter(df_combined,  Station.name == 'UB' ), aes(xmin = 2013.9, xmax = 2020, ymin = -Inf, ymax = Inf),
@@ -267,44 +286,73 @@ p1_ratio <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
   #           fill = "azure2", show.legend = F, linewidth = 0) +
   #  geom_smooth(alpha=0.2, method = "lm", data = filter(df_combined, Average_Type == 'Annual' & Station.name == "SS")) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = geom_line_size_L, color = 'black') +  # Annual average
+  geom_point(data = filter(df_combined, Average_Type == 'Annual'), bg = mean_bg_color, col = "black", 
+             cex = cex_size, show.legend = T) +
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = mean_pch, bg = mean_bg_color, col = "black", 
-             cex = cex_size, show.legend = T) +  # Annual points
+             cex = cex_size, show.legend = F) +
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dotted") +  # Seasonal averages
-  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = geom_point_size_M) +  # Seasonal points
-  geom_smooth(alpha=0.2, data = filter(df_combined,  Season == 'Spring' & Station.name == 'DZ' ), size=0.3, show.legend = F) +
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dashed", show.legend = F) +  # Seasonal averages
+  geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = geom_point_size_M, show.legend = T) +  # Seasonal points
+  geom_smooth(alpha=0.1, data = filter(df_combined,  Average_Type == 'Seasonal' & Season == 'Spring' & Station.name == 'DZ' ), size=0.2, show.legend = F) +
+  geom_vline(aes(xintercept = 2020.5), linetype = "twodash", color = "grey", linewidth = 0.1) +
+  #geom_segment(data=filter(df_combined, Average_Type == 'Annual'), aes(x=2020.3, y = I_5y_mean.r, yend = II_5y_mean.r), arrow = arrow(length = unit(0.1, "cm"))) +
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Winter' ), aes(x=2020.8, y = I_5y_mean.r, yend = II_5y_mean.r, color = Season), arrow = arrow(length = unit(0.1, "cm"), type = "closed"), show.legend = F) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Spring' ), aes(x=2021.1, y = I_5y_mean.r, yend = II_5y_mean.r, color = Season), arrow = arrow(length = unit(0.1, "cm"), type = "closed"), show.legend = F) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Summer' ), aes(x=2021.4, y = I_5y_mean.r, yend = II_5y_mean.r, color = Season), arrow = arrow(length = unit(0.1, "cm"), type = "closed"), show.legend = F) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Autumn' ), aes(x=2021.7, y = I_5y_mean.r, yend = II_5y_mean.r, color = Season), arrow = arrow(length = unit(0.1, "cm"), type = "closed"), show.legend = F) +    
   #  geom_line(data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' ), size=0.5) +
-  geom_smooth(se = FALSE, span=1, data = filter(df_combined,  Season == 'Summer' & Station.name == 'UB' & Year >=2015), size=0.5, show.legend = F) +
+#  geom_smooth(se = FALSE, span=1, data = filter(df_combined,  Average_Type == 'Seasonal' & Season == 'Summer' & Station.name == 'UB' & Year >=2015), size=0.5, show.legend = F) +
+  # geom_mark_ellipse(data = filter(df_combined,  Average_Type == 'pre - post [2014]' & Station.name == 'DZ'),
+  #                  aes(x0=2021, y0=0.55, label = "changes", description = "pre - post, 2014"),  label.margin = margin(0, 0, 0, 0, "mm"),
+  #                  label.fontsize = 3, label.buffer = unit(1, "mm"),
+  #                  label.minwidth = unit(5, "mm"),
+  #                  expand = unit(0, "mm"),  con.type = "straight",
+  #                  linewidth=0, alpha=0.1, 
+  #                   show.legend = F) +
   #  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual' & Station.name == 'UB' & Year >=2015), size=0.1) +
-  #  geom_ribbon(aes(ymin = sd_down.r, ymax = sd_up.r), fill = "gray80", alpha = 0.5) +
-  geom_hline( data = filter(df_combined, Average_Type == 'Annual' ),
-              aes(yintercept = long_term_mean.r), linetype = "dotted", color = "black") +
+  #geom_ribbon(aes(ymin = long_term_mean.r - 0.1, ymax = long_term_mean.r + 0.1), fill = "grey", alpha = 0.5, linewidth = 0) +
+#  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual' & Station.name == 'SS' ), size=0.1) +
+  geom_line(aes(x= Year, y = long_term_mean.r), alpha=0.3, linetype="solid", linewidth = 0.3, color = "grey") +
+  geom_line(aes(x= Year, y = long_term_mean.r),  linetype="dotdash", linewidth = 0.3, color = "black") +
   #  geom_smooth(alpha=0.1) +
-  geom_text(data = filter(df_combined, Station.name == 'UB'),
-            x = 2016, y = 0.96, label = "finer PM (summer, post-2015)",
-            # stat = "unique",
-            color = "orange", size = 2, hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2011.1, y = 0.45, label = "0.45",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2016.1, y = 0.45, label = "0.45",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'SS'),
-            x = 2011.1, y = 0.4, label = "0.4",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'SS'),
-            x = 2012.1, y = 0.4, label = "0.4-Dust",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'SS'),
-            x = 2016.1, y = 0.4, label = "0.4-Dust",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
+  # geom_text(data = filter(df_combined, Station.name == 'UB'),
+  #           x = 2020.5, y = 0.96, label = "finer PM (summer, post-2015)",
+  #           # stat = "unique",
+  #           color = "orange", size = 2, hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'ZU'),
+  #           x = 2011.1, y = 0.45, label = "0.45",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'ZU'),
+  #           x = 2016.1, y = 0.45, label = "0.45",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'SS'),
+  #           x = 2011.1, y = 0.4, label = "0.4",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'SS'),
+  #           x = 2012.1, y = 0.4, label = "0.4-Dust",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'SS'),
+  #           x = 2016.1, y = 0.4, label = "0.4-Dust",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'ZU' & Season == "Spring"), aes(label = ifelse(Seasonal_avg.r< 0.5, round(Seasonal_avg.r,2), ""), color = Season),
+                  size = 2, 
+                  nudge_y = -0.1,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.1,
+                  show.legend = F) +  # Dynamic labels
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'SS' & Year == 2011 |
+                                  Station.name == 'SS' & Season == "Spring" & Year <= 2016), aes(label = ifelse(Seasonal_avg.r < 0.5, round(Seasonal_avg.r,2), ""), color = Season),
+                  size = 2, 
+                  nudge_y = -0.1,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5,
+                  show.legend = F) +  # Dynamic labels
+  scale_shape_manual(values = c(1, 16, 17)) +  # Different shapes for seasonal vs annual
   # scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
   #                     end = 1,
   #                     direction = 1)+
@@ -320,58 +368,86 @@ p1_ratio <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
   theme_bw() +
   # cowplot::theme_cowplot() +
   theme(
+    legend.position = "right",
     legend.key.height = unit(10, "pt"),
     legend.key.spacing.y = unit(0.2, "pt"),
-    legend.title = element_text(size=6, margin = margin(b =10)), #change legend title font size
-    legend.text = element_text(size=6, margin = margin(l = 0)),
+    legend.title = element_text(size=6, margin = margin(0,0,0,0)), #change legend title font size
+    legend.text = element_text(size=6, margin = margin(0,0,0,0)),
+    legend.justification="right",
+    legend.margin=margin(0,0,0,0),
+    legend.box.margin=margin(-10,6,-10,-5),
     strip.background = element_blank(),
     strip.text.y.left = element_text(angle=0),
-    strip.text = element_text(size=0, margin=margin(0,0,0,0)),
+    strip.text = element_text(size=6, margin=margin(0,0,0,0)),
     strip.placement = "outside",
     axis.title=element_text(angle=0,vjust=1.04, size=6),
     axis.text = element_text(size=5),
     plot.title = element_text(size=7),
-    plot.margin = unit(c(0,0,0,0), "mm"),
+    plot.margin = unit(c(0,0,0,-2), "mm"),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1)
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2020), expand =c(0.01, 0.01)) +
-  facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left") 
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2021.7), expand =c(0.01, 0.5)) +
+#  scale_y_continuous(breaks = c(0.3, 0.5, 0.7, 0.9, 1.1), limits = c(0.3, 1.3), expand =c(0, 0)) +
+  facet_wrap(~Station.name, scales="free_y", ncol = 1, strip.position = "left") 
 p1_ratio
 
 
 
 p1_WS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal', Seasonal_avg.WS, Annual_avg.WS), 
                                  color = Season, shape = Average_Type)) +
-  geom_rect(data = filter(df_combined,  Station.name == 'UB' ), aes(xmin = 2019.95, xmax = 2020, ymin = 1.7, ymax = 1.75),
-            alpha = 0.8,
-            fill = "blue", show.legend = F, linewidth = 0) +
-  geom_rect(data = filter(df_combined,  Station.name == 'ZU' ), aes(xmin = 2015.8, xmax = 2016.2, ymin = 3.15, ymax = 3.25),
-            alpha = 0.8,
-            fill = "red", show.legend = F, linewidth = 0) +
-  geom_rect(data = filter(df_combined,  Station.name == 'ZU' ), aes(xmin = 2010.8, xmax = 2011.2, ymin = 3.15, ymax = 3.25),
-            alpha = 0.8,
-            fill = "red", show.legend = F, linewidth = 0) +
-  geom_rect(data = filter(df_combined,  Station.name == 'SS' ), aes(xmin = 2011.8, xmax = 2012.2, ymin = 4.5, ymax = 4.6),
-            alpha = 0.8,
-            fill = "red", show.legend = F, linewidth = 0) +
-  geom_rect(data = filter(df_combined,  Station.name == 'SS' ), aes(xmin = 2015.8, xmax = 2016.2, ymin = 4.5, ymax = 4.6),
-            alpha = 0.8,
-            fill = "red", show.legend = F, linewidth = 0) +
+  # geom_rect(data = filter(df_combined,  Station.name == 'UB' ), aes(xmin = 2019.95, xmax = 2020, ymin = 1.7, ymax = 1.75),
+  #           alpha = 0.8,
+  #           fill = "blue", show.legend = F, linewidth = 0) +
+  # geom_rect(data = filter(df_combined,  Station.name == 'ZU' ), aes(xmin = 2015.8, xmax = 2016.2, ymin = 3.15, ymax = 3.25),
+  #           alpha = 0.8,
+  #           fill = "red", show.legend = F, linewidth = 0) +
+  # geom_rect(data = filter(df_combined,  Station.name == 'ZU' ), aes(xmin = 2010.8, xmax = 2011.2, ymin = 3.15, ymax = 3.25),
+  #           alpha = 0.8,
+  #           fill = "red", show.legend = F, linewidth = 0) +
+  # geom_rect(data = filter(df_combined,  Station.name == 'SS' ), aes(xmin = 2011.8, xmax = 2012.2, ymin = 4.5, ymax = 4.6),
+  #           alpha = 0.8,
+  #           fill = "red", show.legend = F, linewidth = 0) +
+  # geom_rect(data = filter(df_combined,  Station.name == 'SS' ), aes(xmin = 2015.8, xmax = 2016.2, ymin = 4.5, ymax = 4.6),
+  #           alpha = 0.8,
+  #           fill = "red", show.legend = F, linewidth = 0) +
   #  geom_smooth(alpha=0.2, method = "lm", data = filter(df_combined, Average_Type == 'Annual' & Station.name == "SS")) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = geom_line_size_L, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = mean_pch, bg = mean_bg_color, col = "black", 
              cex = cex_size, show.legend = T) +  # Annual points
   # geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = 1) +  # Seasonal averages
-  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dotted") +  # Seasonal averages
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dashed") +  # Seasonal averages
   geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = geom_point_size_M) +  # Seasonal points
   #geom_smooth(alpha=0.2, data = filter(df_combined, Average_Type == 'Annual'), method = "lm") +
-  geom_hline(data = filter(df_combined), aes(yintercept = long_term_mean.WS), linetype = "dotted", color = "black") +
-  geom_text(data = filter(df_combined, Station.name == 'DZ'),
-            x = 2014, y = 3.2, label = "decline (2014)",
-            # stat = "unique",
-            size = 2, color = "blue", hjust = 0) +
-  scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
+  geom_vline(aes(xintercept = 2020.5), linetype = "twodash", color = "grey", linewidth = 0.1) +
+ # geom_segment(data=filter(df_combined, Average_Type == 'Annual'), aes(x=2020.3, y = I_5y_mean.WS, yend = II_5y_mean.WS), arrow = arrow(length = unit(0.1, "cm"))) +
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Winter' ), aes(x=2020.8, y = I_5y_mean.WS, yend = II_5y_mean.WS, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Spring' ), aes(x=2021.1, y = I_5y_mean.WS, yend = II_5y_mean.WS, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Summer' ), aes(x=2021.4, y = I_5y_mean.WS, yend = II_5y_mean.WS, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Autumn' ), aes(x=2021.7, y = I_5y_mean.WS, yend = II_5y_mean.WS, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +
+  geom_rect(data=filter(df_combined, Average_Type == 'pre - post [2014]'), aes(xmin = 2020, xmax = 2022, ymin = min(df_combined$I_5y_mean.WS), ymax = max(df_combined$I_5y_mean.WS))) +
+  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual' & Station.name == 'SS' | Average_Type == 'Annual' & Station.name == 'ZU'), size=0.1) +
+  geom_smooth(alpha=0.1, method = "lm", data = filter(df_combined,  Average_Type == 'Annual'), size=0.05) +
+#    geom_line( data = filter(df_combined, Average_Type == 'Annual' ),
+   #          aes(x= Year, y = long_term_mean.WS), linetype = "dotted", color = "black") +
+  # geom_text(data = filter(df_combined, Station.name == 'DZ'),
+  #           x = 2014, y = 3.2, label = "decline (2014)",
+  #           # stat = "unique",
+  #           size = 2, color = "blue", hjust = 0) +
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Season == "Spring" & Year == 2011 & Station.name == 'ZU' | 
+                                  Season == "Spring" & Year == 2012 & Station.name == 'SS' |
+                                  Season == "Spring" & Year == 2016 & Station.name == 'ZU'|
+                                  Season == "Spring" & Year == 2016 & Station.name == 'SS'), aes(label = round(Seasonal_avg.WS,1), color = Season),
+                  size = 2, 
+                  nudge_y = 0.5,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'SS' & Year > 2008), aes(label = ifelse(Seasonal_avg.WS > 10, round(Seasonal_avg.WS,1), ""), color = Season),
+                  size = 2, 
+                  nudge_y = 0.5,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+    scale_shape_manual(values = c(1, 16, 17)) +  # Different shapes for seasonal vs annual
   # scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
   #                     end = 1,
   #                     direction = 1)+
@@ -384,24 +460,25 @@ p1_WS <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasonal'
     color = "Season",
     shape = "Average Type"
   ) +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2020), expand =c(0.01, 0.01)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2021.7), expand =c(0.01, 0.5)) +
   theme_bw() +
   theme(
+    legend.position = "none",
     legend.key.height = unit(10, "pt"),
     legend.key.spacing.y = unit(0.2, "pt"),
     legend.title = element_text(size=6, margin = margin(b =10)), #change legend title font size
     legend.text = element_text(size=6, margin = margin(l = 0)),
     strip.background = element_blank(),
     strip.text.y.left = element_text(angle=0),
-    strip.text = element_text(size=0, margin=margin(0,0,0,0)),
+    strip.text = element_text(size=6, margin=margin(0,0,0,0)),
     strip.placement = "outside",
     axis.title=element_text(angle=0,vjust=1.04, size=6),
     axis.text = element_text(size=5),
     plot.title = element_text(size=7),
-    plot.margin = unit(c(0,0,0,0), "mm"),
+    plot.margin = unit(c(0,0,0,-2), "mm"),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "white", linetype = "dashed", size = .1),
-    legend.position = "none") +
+) +
   facet_wrap(~Station.name, scales="free_y",  ncol = 1, strip.position = "left")
 
 p1_WS
@@ -427,7 +504,7 @@ p1_VIS <- ggplot(df_combined_noSS, aes(x = Year, y = ifelse(Average_Type == 'Sea
   # geom_smooth(alpha=0.2, data = filter(df_combined, Average_Type == 'Annual', Station.name == 'ZU'), method = "lm") +
   geom_hline(data = filter(df_combined_noSS), aes(yintercept = long_term_mean.VIS), linetype = "dotted", color = "black") +
   geom_hline(data = filter(df_combined, Station.name == 'UB'), aes(yintercept = 6), linewidth=0.25, color = "lightgray") +
-  geom_vline(data = filter(df_combined, Station.name == 'UB'), aes(xintercept = 2020.1), linewidth=0.25, color = "lightgray") +
+  geom_vline(aes(xintercept = 2020.5), linetype = "twodash", color = "grey", linewidth = 0.1) +
   geom_text(data = filter(df_combined, Station.name == 'UB'),
             aes(x = 2020, y = 10),
             label = "12 km",
@@ -438,14 +515,14 @@ p1_VIS <- ggplot(df_combined_noSS, aes(x = Year, y = ifelse(Average_Type == 'Sea
             label = "16,614 km",
             # stat = "unique",
             size = 2, color = "lightgray") +
-  scale_shape_manual(values = c(16, 16)) +  # Different shapes for seasonal vs annual
+  scale_shape_manual(values = c(1, 16, 24)) +  # Different shapes for seasonal vs annual
   # scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
   #                     end = 1,
   #                     direction = 1)+
   scale_color_manual(values=seasonal_color) +
   #scale_fill_viridis(discrete = TRUE) +
   labs(title = bquote("VIS"~(km)), x = "Year", y = " ", color = "Season", shape = "Average Type") +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2022)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2021.5)) +
   #scale_y_continuous(limits = c(6000,20000)) +
   scale_y_reverse(limits = c(20, 6), expand=c(0,0)) +
   geom_text(data = filter(df_combined_noSS, Station.name == 'UB'),
@@ -460,7 +537,7 @@ p1_VIS <- ggplot(df_combined_noSS, aes(x = Year, y = ifelse(Average_Type == 'Sea
     legend.text = element_text(size=6, margin = margin(l = 0)),
     strip.background = element_blank(),
     strip.text.y.left = element_text(angle=0),
-    strip.text = element_text(size=0, margin=margin(0,0,0,0)),
+    strip.text = element_text(size=6, margin=margin(0,0,0,0)),
     strip.placement = "outside",
     axis.title=element_text(angle=0,vjust=1.04, size=6),
     axis.text = element_text(size=5),
@@ -489,34 +566,54 @@ p1_pm10 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Seasona
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = geom_line_size_L, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = mean_pch, bg = mean_bg_color, col = "black", 
              cex = cex_size, show.legend = T) +  # Annual points
-  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dotted") +  # Seasonal averages
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dashed") +  # Seasonal averages
   geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = geom_point_size_M) +  # Seasonal points
-  geom_hline(aes(yintercept = long_term_mean.pm10*1000), linetype = "dotted", color = "black") +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2011, y = 80, label = "High PM10 levels (ZU, 2011)",
-            # stat = "unique",
-            size = 2, color = "darkgreen", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2012.1, y = 57, label = "57",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2016.1, y = 70, label = "70",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'SS'),
-            x = 2011.1, y = 32, label = "32",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_segment(aes(x=2020.3, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000), arrow = arrow(length = unit(0.2, "cm"))) +
-  scale_shape_manual(values = c(1, 16)) +  # Different shapes for seasonal vs annual
+  geom_line(aes(x= Year, y = long_term_mean.pm10*1000), alpha=0.3, linetype="solid", linewidth = 0.3, color = "grey") +
+  geom_line(aes(x= Year, y = long_term_mean.pm10*1000),  linetype="dotdash", linewidth = 0.3, color = "black") +
+  # geom_text(data = filter(df_combined, Station.name == 'ZU'),
+  #           x = 2011, y = 80, label = "High PM10 levels (ZU, 2011)",
+  #           # stat = "unique",
+  #           size = 2, color = "darkgreen", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'ZU'),
+  #           x = 2012.1, y = 57, label = "57",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'ZU'),
+  #           x = 2016.1, y = 70, label = "70",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'SS'),
+  #           x = 2011.1, y = 32, label = "32",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'ZU' & Year > 2008), aes(label = ifelse(Seasonal_avg.pm10*1000 > 50, round(Seasonal_avg.pm10*1000,1), ""), color = Season),
+                  size = 2, 
+                    # nudge_y = 0, Adjusts vertical position
+                  hjust=-0.5,
+                  nudge_y = 0,
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'SS' & Year > 2008), aes(label = ifelse(Seasonal_avg.pm10*1000 > 30, round(Seasonal_avg.pm10*1000,1), ""), color = Season),
+                  size = 2, 
+                  hjust=-0.5,  # Adjusts vertical position
+                  nudge_y = 0,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+#  geom_segment(aes(x=2020.3, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000), arrow = arrow(length = unit(0.2, "cm"))) +
+  geom_vline(aes(xintercept = 2020.5), linetype = "twodash", color = "grey", linewidth = 0.1) +
+ # geom_segment(data=filter(df_combined, Average_Type == 'Annual'), aes(x=2020.3, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000), arrow = arrow(length = unit(0.1, "cm"))) +
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Winter' ), aes(x=2020.8, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Spring' ), aes(x=2021.1, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Summer' ), aes(x=2021.4, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Autumn' ), aes(x=2021.7, y = I_5y_mean.pm10*1000, yend = II_5y_mean.pm10*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +    
+    scale_shape_manual(values = c(1, 16, 24)) +  # Different shapes for seasonal vs annual
   # scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
   #                     end = 1,
   #                     direction = 1)+
   scale_color_manual(values=seasonal_color) +
   #scale_fill_viridis(discrete = TRUE) +
   labs(title = bquote("PM10"~(mu*g~m^-3)), x = "Year", y = " ", color = "Season", shape = "Average Type") +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2020.5), expand =c(0.01, 0.5)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2021.7), expand =c(0.01, 0.5)) +
   theme_bw() +
   theme(
     legend.key.height = unit(10, "pt"),
@@ -549,35 +646,44 @@ p1_pm2.5 <- ggplot(df_combined, aes(x = Year, y = ifelse(Average_Type == 'Season
   # geom_rect(data = filter(df_combined,  Station.name == 'DZ' ), aes(xmin = 2013.9, xmax = 2020, ymin = -Inf, ymax = Inf),
   #           alpha = 0.8,
   #           fill = "azure2", show.legend = F, linewidth = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2012.1, y = 30, label = "30",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'ZU'),
-            x = 2016.1, y = 30, label = "30",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
-  geom_text(data = filter(df_combined, Station.name == 'SS'),
-            x = 2011.1, y = 12, label = "12",
-            # stat = "unique",
-            size = 2, color = "red", hjust = 0) +
+  # geom_text(data = filter(df_combined, Station.name == 'SS'),
+  #           x = 2011.1, y = 12, label = "12",
+  #           # stat = "unique",
+  #           size = 2, color = "red", hjust = 0) +
   geom_line(data = filter(df_combined, Average_Type == 'Annual' ), size = geom_line_size_L, color = 'black') +  # Annual average
   geom_point(data = filter(df_combined, Average_Type == 'Annual'), pch = mean_pch, bg = mean_bg_color, col = "black", 
              cex = cex_size, show.legend = T) +  # Annual points
-  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dotted") +  # Seasonal averages
-  geom_line(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'UB' & Season == 'Summer' & Year >2013), size = geom_line_size_M) +  # Seasonal averages
+  geom_line(data = filter(df_combined, Average_Type == 'Seasonal'), size = geom_line_size_M, linetype = "dashed") +  # Seasonal averages
+  #geom_line(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'UB' & Season == 'Summer' & Year >2013), size = geom_line_size_M) +  # Seasonal averages
   geom_point(data = filter(df_combined, Average_Type == 'Seasonal' ), size = geom_point_size_M) +  # Seasonal points
-  geom_hline(aes(yintercept = long_term_mean.pm2.5*1000), linetype = "dotted", color = "black") +
-#  geom_vline( data = filter(df_combined, Average_Type == 'Annual' ),
+  geom_line(aes(x= Year, y = long_term_mean.pm2.5*1000), alpha=0.3, linetype="solid", linewidth = 0.3, color = "grey") +
+  geom_line(aes(x= Year, y = long_term_mean.pm2.5*1000),  linetype="dotdash", linewidth = 0.3, color = "black") +
+  geom_vline(aes(xintercept = 2020.5), linetype = "twodash", color = "grey", linewidth = 0.1) +
+ # geom_segment(data=filter(df_combined, Average_Type == 'Annual'), aes(x=2020.3, y = I_5y_mean.pm2.5*1000, yend = II_5y_mean.pm2.5*1000), arrow = arrow(length = unit(0.1, "cm"))) +
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Winter'), aes(x=2020.8, y = I_5y_mean.pm2.5*1000, yend = II_5y_mean.pm2.5*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Spring'), aes(x=2021.1, y = I_5y_mean.pm2.5*1000, yend = II_5y_mean.pm2.5*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Summer'), aes(x=2021.4, y = I_5y_mean.pm2.5*1000, yend = II_5y_mean.pm2.5*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +  
+  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]' & Season == 'Autumn'), aes(x=2021.7, y = I_5y_mean.pm2.5*1000, yend = II_5y_mean.pm2.5*1000, color = Season), arrow = arrow(length = unit(0.1, "cm"), type="closed")) +    
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'ZU' & Year > 2008), aes(label = ifelse(Seasonal_avg.pm2.5*1000 > 30, round(Seasonal_avg.pm2.5*1000,1), ""), color = Season),
+                  size = 2, 
+                  nudge_x = 0.5,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+  geom_text_repel(data = filter(df_combined, Average_Type == 'Seasonal' & Station.name == 'SS' & Year > 2008), aes(label = ifelse(Seasonal_avg.pm2.5*1000 > 10, round(Seasonal_avg.pm2.5*1000,1), ""), color = Season),
+                  size = 2, 
+                  nudge_x = 0.5,  # Adjusts vertical position
+                  segment.color = "gray50", 
+                  segment.size = 0.5) +  # Dynamic labels
+  #  geom_vline( data = filter(df_combined, Average_Type == 'Annual' ),
  #             aes(xintercept = 2013.5), linetype = "dotted", color = "black") +
-  scale_shape_manual(values = c(2, 16)) +  # Different shapes for seasonal vs annual
+  scale_shape_manual(values = c(1, 16, 17)) +  # Different shapes for seasonal vs annual
   # scale_color_viridis(discrete = TRUE, option = "D",   begin = 0,
   #                     end = 1,
   #                     direction = 1)+
   scale_color_manual(values=seasonal_color) +
   #scale_fill_viridis(discrete = TRUE) +
   labs(title = bquote("PM2.5"~(mu*g~m^-3)), x = "Year", y = " ", color = "Season", shape = "Average Type") +
-  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2020), expand = c(0.01, 0)) +
+  scale_x_continuous(breaks = seq(min(df_combined$Year), max(df_combined$Year), 3), limits = c(2008, 2021.7), expand = c(0.01, 0.5)) +
   theme_bw() +
   theme(
     legend.key.height = unit(10, "pt"),
@@ -601,21 +707,99 @@ p1_pm2.5
 
 
 
+library(ggtext)
+library(gridtext)
 
-plot_20250120 <- wrap_plots(p1_WS, p1_pm10, p1_pm2.5, p1_VIS, p1_ratio, nrow = 1)
+title_text <- glue::glue(
+  'In the period of 2008–2020 with 4 seasons: ',
+  '<span style = "color:{seasonal_color["Winter"]}"> "**Winter**"</span>, '
+  , 
+  '<span style = "color:{seasonal_color["Spring"]}"> "**Spring**"</span>, ', 
+  '<span style = "color:{seasonal_color["Summer"]}"> "**Summer**"</span> ',
+  'and ', 
+  '<span style = "color:{seasonal_color["Autumn"]}"> "**Autumn**"</span> ' 
+)
 
-patchwork <- plot_20250120 + plot_annotation(
-  title = "Seasonal and Annual Trends in WS, VIS, PM10, PM2.5, and r-Ratio Across Four Locations (2008–2020)",
-  subtitle = "Analysis of seasonal variations and long-term changes in atmospheric conditions",
+
+p_combined <- p1_ratio+ 
+  labs(
+    title = "Annual and seasonal trends in WS, VIS, PM10, PM2.5, and r-Ratio at the study sites",
+    subtitle = title_text,
+    caption = "Note: Visibility data unavailable for SS."
+  ) +
+  plot_layout(guides = "collect", nrow=1,) & theme(legend.position = "bottom")
+
+
+patchwork0 <- p_combined + labs(
+  title = "Annual and seasonal trends in WS, VIS, PM10, PM2.5, and r-Ratio at the study sites (2008–2020)",
+  subtitle = title_text,
   caption = "Note: Visibility data unavailable for SS."
 ) +
-  theme(plot.title = element_text(size=10, margin=margin(0,0,0,0)))
+  theme(
+        plot.subtitle = ggtext::element_markdown(size=7, lineheight =1),
+        plot.title.position = 'plot', 
+        text = element_text(colour = 'gray20'),
+        plot.title=element_markdown(size=6, margin=margin(0,0,0,0)),
+        legend.position = "top",
+          legend.key.height = unit(10, "pt"),
+          legend.key.spacing.y = unit(0.2, "pt"),
+          legend.title = element_text(size=6, margin = margin(b =10)), #change legend title font size
+          legend.text = element_text(size=6, margin = margin(l = 0)),
+        )
 
 
-ggsave("visuals/fig3_3_trends_seasons_0120c.png", patchwork, width = 9, height = 4, units = "in", dpi = 300)
+
+title <- get_subtitle(patchwork0)
+
+legend_b <- get_legend(
+  patchwork0 +
+    theme(legend.box.background = "white", legend.title = element_text(size=6, margin = margin(b =10)),
+      legend.position = "bottom",
+          legend.direction = "vertical")
+                      )
+season5 <- c('#a6611a','#dfc27d', '#80cdc1','#018571')
 
 
+legend_plot <- ggplot(df_combined, aes(color = Season, shape = Average_Type, fill = "Autumn")) +
+  geom_point(aes(y = 1, x = Season), size = 4) +
+  scale_color_manual(name = "Season", values = seasonal_color) +
+#  geom_segment(data=filter(df_combined, Average_Type == 'pre - post [2014]'), aes(x=1, y = 1, yend = 2, color = Season), arrow = arrow(length = unit(0.1, "cm")), show.legend = T) +  
+  swimmer_arrows(Average_Type == 'pre - post [2014]', arrow_start=1,
+                 cont = 'Continued_treatment',name_col='Arm',type =
+                   "open",cex=1) +
+   geom_point(aes(y = 2, x = Average_Type), size = 4) +
+  geom_point(data=filter(df_combined, Average_Type == 'Annual' ), aes(x=1, y = 1), pch =0 ) +  
+  theme_void() +
+  theme(legend.position = "bottom", legend.title = element_text(face = "bold"))
+legend_plot
 
+library(cowplot)
+plot_20250129legend <- wrap_plots(p1_WS, p1_pm10, p1_pm2.5, p1_ratio, nrow = 1)
+ggsave("visuals/fig3_3_trends_seasons_0131_legend.png",plot_20250129legend, width = 8, height = 4, units = "in", dpi = 300)
+
+
+plot <- plot_grid(plot_20250129legend, legend_b, ncol = 1, nrow = 2, rel_heights = c(0.95, 0.1))
+ggsave("visuals/fig3_3_trends_seasons_0129legend_added.png", plot, width = 6, height = 3, units = "in", dpi = 300)
+
+plot <- p1_WS+ p1_pm10+ p1_pm2.5+p1_ratio + plot_layout(nrow = 1, ncol = 4, guides = "collect", theme(legend.position = "bottom"))
+
+
+################## time-lag, seasonal cycle figure
+### data 
+time_lag_df <- merged_seasonal_df |>
+  select(1:9)
+
+write.csv(time_lag_df, "data/processed/df_time_lag.csv")
+time_lag_df |>
+  filter(Season == "Winter"   |  Season == "Spring" ) |>
+  ggplot( aes(x=Seasonal_avg.pm2.5, y=Seasonal_avg.r, color = Season)) +
+  geom_point() +
+  geom_line(aes(x=Year-1, y=Seasonal_avg.pm2.5 , color = Season)) +
+  geom_smooth() +
+  facet_grid(Season~Station.name)
+
+
+qplot(x=time_lag_df$Seasonal_avg.pm2.5,y=c(tail(x,-2),0,0))
 
 Seasonal_avg.pm2.5*1000, Annual_avg.pm2.5*1000 long_term_mean.pm2.5*1000
 
