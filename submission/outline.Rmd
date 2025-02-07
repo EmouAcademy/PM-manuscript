@@ -737,10 +737,14 @@ sites](images/figure_7b.png){width="300"}
 \subsection{Trends}
 
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](images/figure_8.png){width="500"}
+variations](images/figure_8.png){width="700"}
+![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+variations](images/figure_9.png){width="300"}
 
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](../visuals/fig3_3_trends_seasons_0120c.png){width="600"}
+variations](images/figure_8_supplement.png){width="600"}
+![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+variations](images/figure_9_supplement.png){width="600"}
 
 \newpage
 

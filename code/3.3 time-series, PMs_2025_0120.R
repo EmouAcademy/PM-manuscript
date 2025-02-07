@@ -7,6 +7,7 @@ library(scales)
 library(ggpubr)
 library(ggbreak)
 library(patchwork)
+library(ggrepel)
 ####### input DATA 
 data <- read.csv("data/processed/df.csv")
 df <- read.csv("data/processed/df_filled.csv")
@@ -748,6 +749,11 @@ patchwork0 <- p_combined + labs(
         )
 
 
+library(cowplot)
+plot_20250129legend <- wrap_plots(p1_WS, p1_pm10, p1_pm2.5, p1_ratio, nrow = 1)
+plot_20250129legend <- wrap_plots(p1_WS, p1_pm10, p1_pm2.5, nrow = 1)
+plot <- plot_grid(plot_20250129legend, plot_3, p1_ratio, nrow = 2, rel_heights = c(0.95, 0.1))
+ggsave("submission/images/figure_8.png",plot_20250129legend, width = 8, height = 4, units = "in", dpi = 300)
 
 title <- get_subtitle(patchwork0)
 
@@ -773,9 +779,7 @@ legend_plot <- ggplot(df_combined, aes(color = Season, shape = Average_Type, fil
   theme(legend.position = "bottom", legend.title = element_text(face = "bold"))
 legend_plot
 
-library(cowplot)
-plot_20250129legend <- wrap_plots(p1_WS, p1_pm10, p1_pm2.5, p1_ratio, nrow = 1)
-ggsave("visuals/fig3_3_trends_seasons_0131_legend.png",plot_20250129legend, width = 8, height = 4, units = "in", dpi = 300)
+
 
 
 plot <- plot_grid(plot_20250129legend, legend_b, ncol = 1, nrow = 2, rel_heights = c(0.95, 0.1))
