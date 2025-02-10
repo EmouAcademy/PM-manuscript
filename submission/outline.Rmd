@@ -741,10 +741,19 @@ variations](images/figure_8.png){width="700"}
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
 variations](images/figure_9.png){width="300"}
 
-![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](images/figure_8_supplement.png){width="600"}
-![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](images/figure_9_supplement.png){width="600"}
+\newpage
+```{r}
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(gtsummary)
+library(flextable)
+```
+
+
+\newpage
+
 
 \newpage
 
@@ -756,6 +765,7 @@ sites](images/table_1.png){width="400"}
 
 \newpage
 
+#### Supplements
 ![Scheme 1. Data handling procedure](images/scheme_1.png){width="300"}
 
 \newpage
@@ -763,6 +773,16 @@ sites](images/table_1.png){width="400"}
 ![Figure 2. Data gap filling](images/figure_2b.png){width="300"}
 
 ![Figure 2b. Data gap filling](images/figure_2c.png){width="300"}
+\newpage
+
+![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+variations](images/figure_8_supplement.png){width="600"}
+
+
+![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+variations](images/figure_9_supplement.png){width="600"}
+
+
 
 [@Munkh2017]
 
