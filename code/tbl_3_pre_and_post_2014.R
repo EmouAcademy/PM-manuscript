@@ -313,8 +313,32 @@ table3_SS <-
   remove_row_type(Average_Type, type = "all") 
 table3_SS
 show_header_names(table3_SS)
-tbl_3_pre_and_post_2014 <- tbl_stack(tbls = list(table3_UB, table3_DZ, table3_ZU, table3_SS)) |>
+tbl_3 <- tbl_stack(tbls = list(table3_UB, table3_DZ, table3_ZU, table3_SS)) |>
   modify_footnote(all_stat_cols() ~ "**I** and **II** denote *pre* and *post* [2014] with corresponding samplings of N, respectively; Mean (SD)")
-tbl_3
+tbl_3 |>
+  as_gt() |>
+  gt::gtsave(paste0(plots_path, "/overview_table.html"))
 
+# Create and save the table in HTML format
+dplyr::mutate(
+  virus_full,
+  virus_type = forcats::fct_relevel(virus_type, "WPV1")
+) |>
+  polioanalytica::create_gt_table(
+    drop_date_col = FALSE,
+    table_fontsize = 24
+  ) |>
+  gt::gtsave(
+    paste0(plots_path, "/overview_table.html")
+  )
+plots_path <- "file:///var/folders/9f/nn2jnl8n1lj1sk3y391hydzm0000gn/T//Rtmp4iEj37"
+plots_path1 <- "Visuals"
+
+# Capture the HTML table as a PNG image
+webshot::webshot(
+  paste0(plots_path, "/filef83758010470.html"),
+  paste0(plots_path2, "/tbl3_pre_post_2014.png"),
+  vheight = 500, 
+  vwidth = 1700
+)
 

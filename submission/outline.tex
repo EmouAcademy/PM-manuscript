@@ -103,6 +103,9 @@
 
 \usepackage{pdfpages}
 \usepackage[utf8]{inputenc}
+\usepackage{pdflscape}
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -515,12 +518,11 @@ total variance, with Dim 1 (44.36\%) strongly associated with PM10 and
 PM2.5. Wind speed and wind direction are positively aligned with Dim 2
 (22.16\%), reflecting their influence on pollutant dispersion.
 
-\subsubsection{The recent trends in concentrations of PMS and
-fine-coarse fractional changes at the
-sites}\label{the-recent-trends-in-concentrations-of-pms-and-fine-coarse-fractional-changes-at-the-sites}
+\subsubsection{The trends in concentrations of PMS and fine-coarse
+fractional changes at the
+sites}\label{the-trends-in-concentrations-of-pms-and-fine-coarse-fractional-changes-at-the-sites}
 
-add table, add trend figure: r, add relationship figure: r in spring and
-pm2.5 in winter
+\paragraph{Seasonal and annual trends}\label{seasonal-and-annual-trends}
 
 Figure 8 illustrates the trend analysis of PM10 and PM2.5 concentrations
 across study sites from 2009 to 2020. The time series demonstrates
@@ -545,12 +547,16 @@ is observed at DZ, particularly during winter (Q1), suggesting rising
 emissions potentially associated with urbanized household practices and
 other local activities in Mongolia's regional towns.
 
-ratio in spring when dust
+\includegraphics[width=7.29167in,height=\textheight,keepaspectratio]{images/figure_8.png}
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{images/figure_9.png}
+
+\paragraph{r-ratio in spring when
+dust}\label{r-ratio-in-spring-when-dust}
 
 Dust particles are emitted from the surface to the atmosphere when wind
 speed on the surface (i.e., friction velocity) u* exceeds a threshold
-value u\emph{t, which is determined from soil particle size and land
-surface conditions (Shao 2008). In the case of Asian dust, u}t is
+value u*t, which is determined from soil particle size and land surface
+conditions (Shao 2008). In the case of Asian dust, u*\{\_t\} is
 controlled by a number of land surface parameters such as snow cover,
 soil moisture, soil crust, soil freezing, and vegetation (Kurosaki et
 al.~2011), reflecting the location of its source regions (mainly the
@@ -936,21 +942,66 @@ and \(PM_{2.5}\) with PCA analysis}
 \includegraphics[width=7.29167in,height=\textheight,keepaspectratio]{images/figure_8.png}
 \includegraphics[width=3.125in,height=\textheight,keepaspectratio]{images/figure_9.png}
 
-\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/figure_8_supplement.png}
-\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/figure_9_supplement.png}
+\newpage
+
+Now for some more text and then here is Table @ref(tab:lab2).
+
+\begin{table}[ht]
+\centering
+\begingroup\fontsize{0.1pt}{0.1pt}\selectfont
+\begin{tabular}{r}
+   \\ 
+ \end{tabular}
+\endgroup
+\caption{This is table 2} 
+\label{tab:lab2}
+\end{table}
+
+\begin{center}\includegraphics[width=4.5in]{images/tbl2_seasonal_to_annual} \end{center}
+
+\newpage
+
+\begin{landscape}
+
+Now for some more text and then here is Table @ref(tab:lab3).
+
+\begin{table}[ht]
+\centering
+\begingroup\fontsize{0.1pt}{0.1pt}\selectfont
+\begin{tabular}{r}
+   \\ 
+ \end{tabular}
+\endgroup
+\caption{This is table 3: Seasonal and Annual
+trends} 
+\label{tab:lab3}
+\end{table}
+
+\begin{center}\includegraphics[width=8in]{images/tbl3_pre_post_2014} \end{center}
+\end{landscape}
 
 \newpage
 
 \includegraphics[width=3.125in,height=\textheight,keepaspectratio]{images/figure_1.png}{]}
 
-\begin{figure}
+Now for some more text and then here is Table @ref(tab:lab1).
+
+\begin{table}[ht]
 \centering
-\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{images/table_1.png}
-\caption{\textbf{Table 1}. A description of datasets obtained at the
-sites}
-\end{figure}
+\begingroup\fontsize{0.1pt}{0.1pt}\selectfont
+\begin{tabular}{r}
+   \\ 
+ \end{tabular}
+\endgroup
+\caption{This is table 1} 
+\label{tab:lab1}
+\end{table}
+
+\begin{center}\includegraphics[width=4.5in]{images/table_1} \end{center}
 
 \newpage
+
+\paragraph{Supplements}\label{supplements}
 
 \begin{figure}
 \centering
@@ -966,10 +1017,21 @@ sites}
 \caption{Figure 2. Data gap filling}
 \end{figure}
 
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{images/figure_2c.png}
+\newpage
+
 \begin{figure}
 \centering
-\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{images/figure_2c.png}
-\caption{Figure 2b. Data gap filling}
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/figure_8_supplement.png}
+\caption{Interannual and seasonal trends of \(PM_{10}\) and \(PM_{2.5}\)
+variations}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{images/figure_9_supplement.png}
+\caption{Interannual and seasonal trends of \(PM_{10}\) and \(PM_{2.5}\)
+variations}
 \end{figure}
 
 (1)

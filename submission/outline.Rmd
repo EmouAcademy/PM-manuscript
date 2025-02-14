@@ -1,6 +1,10 @@
 ---
 title: "**Evidence for a Change to Aerosol Fractions: In a Gobi Town**"
 bibliography: references.bib
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 output:
   pdf_document:
     latex_engine: xelatex
@@ -180,9 +184,9 @@ model has existed so for climate models which clearly limits our
 understanding the climate system and shape the facing global issues of
 global warming. This is first mainly, caused by the lack of
 parameterization and the complex nature of its aerosol composition.
-[AND] surface ... [AND] anthropogenic, livestock These findings highlight
-the significant contribution of the Gobi Desert to global dust aerosols
-and the complex nature of its aerosol composition.
+[AND] surface ... [AND] anthropogenic, livestock These findings
+highlight the significant contribution of the Gobi Desert to global dust
+aerosols and the complex nature of its aerosol composition.
 
 Second, the significant contribution of the Gobi Desert to global dust
 aerosols is not fully recognized; and their is the rapid growing changes
@@ -381,15 +385,11 @@ total variance, with Dim 1 (44.36%) strongly associated with PM10 and
 PM2.5. Wind speed and wind direction are positively aligned with Dim 2
 (22.16%), reflecting their influence on pollutant dispersion.
 
-### The recent trends in concentrations of PMS and fine-coarse fractional changes at the sites
+### The trends in concentrations of PMS and fine-coarse fractional changes at the sites
 
-add table, add trend figure: r, add relationship figure: r in spring and
-pm2.5 in winter
+#### Inter-annual and intra-seasonal variations of of WS, PM10, PM2.5 and r-Ratio 
 
-Figure 8 illustrates the trend analysis of PM10 and PM2.5 concentrations
-across study sites from 2009 to 2020. The time series demonstrates
-seasonal patterns and trends, with p-values of trend changes,
-seasonally: winter (Q1), spring (Q2), and summer-autumn (Q3). At UB,
+To demonstrate the time-series trends in Interannual variations At UB,
 significant negative trends both in PM10 and PM2.5 concentrations are
 observed for winter and spring (Q1 and Q2, p \< 0.001). At DZ, a
 significant positive trend in PM10 and PM2.5 concentrations is observed
@@ -409,16 +409,21 @@ winter (Q1), suggesting rising emissions potentially associated with
 urbanized household practices and other local activities in Mongolia's
 regional towns.
 
-ratio in spring when dust 
+![Interannual and seasonal trends of \$PM\_{10}\$ and \$PM\_{2.5}\$
+variations](images/figure_8.png){width="700"} ![Interannual and seasonal
+trends of \$PM\_{10}\$ and \$PM\_{2.5}\$
+variations](images/figure_9.png){width="300"}
+
+#### r-ratio in spring when dust
 
 Dust particles are emitted from the surface to the atmosphere when wind
 speed on the surface (i.e., friction velocity) u\* exceeds a threshold
-value u*t, which is determined from soil particle size and land surface
-conditions (Shao 2008). In the case of Asian dust, u*t is controlled by
-a number of land surface parameters such as snow cover, soil moisture,
-soil crust, soil freezing, and vegetation (Kurosaki et al. 2011),
-reflecting the location of its source regions (mainly the Gobi and
-Taklimakan Deserts) at middle latitudes and high altitudes.
+value u\*t, which is determined from soil particle size and land surface
+conditions (Shao 2008). In the case of Asian dust, u\*{\_t} is
+controlled by a number of land surface parameters such as snow cover,
+soil moisture, soil crust, soil freezing, and vegetation (Kurosaki et
+al. 2011), reflecting the location of its source regions (mainly the
+Gobi and Taklimakan Deserts) at middle latitudes and high altitudes.
 
 ## Conclusions
 
@@ -635,39 +640,43 @@ that measures light scattering by air-borne particulates. Meteorological
 parameters, including wind speed, wind direction and visibility were
 determined by automatic instruments and are detailed in previous
 articles (Jugder et al., 2011, 2012; Nishikawa, Sugimoto). The
-instruments for measuring particulate matters were placed 2 m above
-the ground level (AGL) at Dalanzadgad, Sainshand and Zamyn-Uud (Table
-2.1). Wind sensors and visibility (meteorological optical range-MOR)
-sensors with a maximum measurement range of 20 km were installed at a
-height of 3 m AGL at the three Gobi sites. At the Ulaanbaatar site, the
-wind sensor height and a visibility sensor was placed at 15 m AGL.
-Datasets were obtained from measurements at Dalanzadgad, Sainshand, and
-Zamyn-Uud from January 2009 to May 2018, and at Ulaanbaatar from the end
-of April 2008 to May 2020.
+instruments for measuring particulate matters were placed 2 m above the
+ground level (AGL) at Dalanzadgad, Sainshand and Zamyn-Uud (Table 2.1).
+Wind sensors and visibility (meteorological optical range-MOR) sensors
+with a maximum measurement range of 20 km were installed at a height of
+3 m AGL at the three Gobi sites. At the Ulaanbaatar site, the wind
+sensor height and a visibility sensor was placed at 15 m AGL. Datasets
+were obtained from measurements at Dalanzadgad, Sainshand, and Zamyn-Uud
+from January 2009 to May 2018, and at Ulaanbaatar from the end of April
+2008 to May 2020.
 
-To improve the data quality, we removed spikes exceeding above 7 $\mu g m^{-3}$ considering the reported extreme values (XXXXX Jugder, XXXX Tsatsral), unrealistic PM2.5 values exceed PM10 (pm2.5 > pm10 *1.1) and detected signals that invariate with an extended period caused by electricity shortage and equipment
-malfunctions for all sites. Further, we handled data each
-stations separately to remove suspective data, carefully. For example, In Sainshand
-station, … was … 
-Prior to data quality improvement, there were missing data with percentages ranged from 10.3% to 23.6%, attributed to
-equipment malfunctions or adverse weather conditions. Ulaanbaatar
-demonstrated the highest data completeness for both PM2.5 (88.6%) and
-PM10 (89.7%), whereas Dalanzadgad recorded the lowest (PM2.5: 76.4%;
-PM10: 81.5%)(Table 1). After data quality improvement, missing data percentages 
-has increased by XXXXXX.  [Due to electricity shortage and equipment
-malfunctions contributed to the bad data, and missing data....]
+To improve the data quality, we removed spikes exceeding above 7
+$\mu g m^{-3}$ considering the reported extreme values (XXXXX Jugder,
+XXXX Tsatsral), unrealistic PM2.5 values exceed PM10 (pm2.5 \> pm10
+\*1.1) and detected signals that invariate with an extended period
+caused by electricity shortage and equipment malfunctions for all sites.
+Further, we handled data each stations separately to remove suspective
+data, carefully. For example, In Sainshand station, … was … Prior to
+data quality improvement, there were missing data with percentages
+ranged from 10.3% to 23.6%, attributed to equipment malfunctions or
+adverse weather conditions. Ulaanbaatar demonstrated the highest data
+completeness for both PM2.5 (88.6%) and PM10 (89.7%), whereas
+Dalanzadgad recorded the lowest (PM2.5: 76.4%; PM10: 81.5%)(Table 1).
+After data quality improvement, missing data percentages has increased
+by XXXXXX. [Due to electricity shortage and equipment malfunctions
+contributed to the bad data, and missing data....]
 
-The data used in the study are based on hourly means derived from 1 and 10 min averages. 
-For trend analysis, we added the data derived after data filling with the procedure, detailed in the next section.
+The data used in the study are based on hourly means derived from 1 and
+10 min averages. For trend analysis, we added the data derived after
+data filling with the procedure, detailed in the next section.
 
-Data filling
-Missing data handling with the statistical packages At last, we filled
-the missing data with 3-hour maxgaps with imputeTS package for
-univariate time series, and larger gaps using mtsdi R package (well-used
-for time-series data), and improved the missing data percents by… from …
-to … Additionally, meteorological parameters such as wind speed,
-direction, and visibility are integrated into the analysis to elucidate
-their impact on PM levels.
+Data filling Missing data handling with the statistical packages At
+last, we filled the missing data with 3-hour maxgaps with imputeTS
+package for univariate time series, and larger gaps using mtsdi R
+package (well-used for time-series data), and improved the missing data
+percents by… from … to … Additionally, meteorological parameters such as
+wind speed, direction, and visibility are integrated into the analysis
+to elucidate their impact on PM levels.
 
 The MTSDI method (Junger, Santos, and Ponce de Leon (2003), Junger and
 Leon (2012)) uses the EM algorithm with the Autoregressive Integrated
@@ -693,8 +702,6 @@ distribution of study sites and the locations of meteorological
 stations. The visual contrast between urban (e.g., Ulaanbaatar) and
 desert (e.g., Dalanzadgad) environments underscores the spatial
 variability in air quality measurements across Mongolia.
-
-
 
 \newpage
 
@@ -736,36 +743,67 @@ sites](images/figure_7b.png){width="300"}
 \newpage
 \subsection{Trends}
 
-![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
-variations](images/figure_8.png){width="700"}
-![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
+![Interannual and seasonal trends of \$PM\_{10}\$ and \$PM\_{2.5}\$
+variations](images/figure_8.png){width="700"} ![Interannual and seasonal
+trends of \$PM\_{10}\$ and \$PM\_{2.5}\$
 variations](images/figure_9.png){width="300"}
 
 \newpage
-```{r}
-#| label: load-packages
-#| include: false
 
-library(tidyverse)
-library(gtsummary)
-library(flextable)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(xtable)
+options(xtable.include.rownames=FALSE, xtable.comment=FALSE)
+
+# Dummy table function
+dt = function(label, caption=NULL) {
+  print(xtable(setNames(data.frame(x=numeric()), " "),
+               caption=caption,
+               label=paste0("tab:", label)), 
+        hline.after=NULL,
+        booktabs=FALSE,
+        size="\\fontsize{0.1pt}{0.1pt}\\selectfont")
+}
 ```
 
+Now for some more text and then here is Table \@ref(tab:lab2).
+
+```{r, lab2, results="asis", fig.align="center", out.width="4.5in", fig.pos= 'H'}
+dt("lab2", "This is table 2")
+include_graphics("images/tbl2_seasonal_to_annual.png")
+```
 
 \newpage
 
+\blandscape
+
+Now for some more text and then here is Table \@ref(tab:lab3).
+
+```{r, lab3, results="asis", fig.align="center", out.width="8in", fig.pos= 'H'}
+dt("lab3", "This is table 3: Seasonal and Annual
+trends")
+include_graphics("images/tbl3_pre_post_2014.png")
+```
+
+\elandscape
 
 \newpage
 
 ![Geographic locations of study
 sites](images/figure_1.png){width="300"}]
 
-![**Table 1**. A description of datasets obtained at the
-sites](images/table_1.png){width="400"}
+Now for some more text and then here is Table \@ref(tab:lab1).
+
+```{r, lab1, results="asis", fig.align="center", out.width="4.5in"}
+dt("lab1", "This is table 1")
+include_graphics("images/table_1.png")
+```
 
 \newpage
 
 #### Supplements
+
 ![Scheme 1. Data handling procedure](images/scheme_1.png){width="300"}
 
 \newpage
@@ -778,11 +816,13 @@ sites](images/table_1.png){width="400"}
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
 variations](images/figure_8_supplement.png){width="600"}
 
+Figure 8 illustrates the trend analysis of PM10 and PM2.5 concentrations
+across study sites from 2008 to 2020. The time series demonstrates
+seasonal patterns and trends, with p-values of trend changes,
+seasonally: winter (Q1), spring (Q2), summer and autumn (Q3).
 
 ![Interannual and seasonal trends of $PM_{10}$ and $PM_{2.5}$
 variations](images/figure_9_supplement.png){width="600"}
-
-
 
 [@Munkh2017]
 

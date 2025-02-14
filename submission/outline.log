@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.1.8)  10 FEB 2025 17:47
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.2.12)  13 FEB 2025 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **outline.tex
 (./outline.tex
-LaTeX2e <2024-11-01> patch level 1
-L3 programming layer <2024-12-25>
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/base/size11.clo
@@ -134,7 +134,7 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-12-25 L3 programming layer (loader) 
+Package: expl3 2025-01-18 L3 programming layer (loader) 
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
 \g__graphics_track_int=\count281
@@ -256,13 +256,11 @@ LaTeX Info: Redefining \_ on input line 43.
 ) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 ) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
-Package: lineno 2023/05/20 line numbers on paragraphs v5.3
+Package: lineno 2025/01/29 line numbers on paragraphs v5.4
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count301
-)
-Invalid UTF-8 byte or sequence at line 292 replaced by U+FFFD.
-(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
@@ -283,10 +281,10 @@ Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 \bframerule=\dimen169
 \bframesep=\dimen170
 \bframebox=\box56
-\linenoamsmath@ams@eqpen=\count309
-LaTeX Info: Redefining \\ on input line 3180.
+\@LN@amsmath@ams@eqpen=\count309
+LaTeX Info: Redefining \\ on input line 3187.
 ) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdfpages/pdfpages.sty
-Package: pdfpages 2024/10/28 v0.6c Insert pages of external PDF documents (AM)
+Package: pdfpages 2025/01/30 v0.6e Insert pages of external PDF documents (AM)
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 ) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/eso-pic/eso-pic.sty
@@ -298,7 +296,7 @@ Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
 \AM@pageheight=\dimen174
 \AM@fboxrule=\dimen175
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdfpages/ppxetex.def
-File: ppxetex.def 2024/10/28 v0.6c Pdfpages driver for XeTeX (AM)
+File: ppxetex.def 2025/01/30 v0.6e Pdfpages driver for XeTeX (AM)
 )
 \pdfpages@includegraphics@status=\count310
 \AM@pagebox=\box57
@@ -315,7 +313,15 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 
 Package inputenc Warning: inputenc package ignored with utf8 based engines.
 
-) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/bookmark/bookmark.sty
+) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
+)) (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
@@ -419,26 +425,26 @@ File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
 )) (./outline.aux)
 \openout1 = `outline.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -474,19 +480,19 @@ LaTeX Font Info:    ... okay on input line 119.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 119.
+(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 119.
+(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 119.
+(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/phv/m/n on input line 119.
+(Font)                  OT1/lmss/m/n --> TU/phv/m/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/phv/bx/n on input line 119.
+(Font)                  OT1/lmss/bx/n --> TU/phv/bx/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 119.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 119.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 122.
 
 Package fontspec Info: 
 (fontspec)             latinmodern-math scale = 1.213446709452141.
@@ -513,15 +519,15 @@ Package fontspec Info:
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
 (fontspec)             <->s*[1.213446709452141]"[latinmodern-math.otf]/OT:script=math;language=dflt;"
 
-LaTeX Font Info:    Trying to load font information for T1+latinmodern-math.otf(0) on input line 119.
-LaTeX Font Info:    No file T1latinmodern-math.otf(0).fd. on input line 119.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 119.
+LaTeX Font Info:    Trying to load font information for T1+latinmodern-math.otf(0) on input line 122.
+LaTeX Font Info:    No file T1latinmodern-math.otf(0).fd. on input line 122.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 122.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `T1/latinmodern-math.otf(0)/m/n' undefined
-(Font)              using `T1/lmr/m/n' instead on input line 119.
+(Font)              using `T1/lmr/m/n' instead on input line 122.
 
 
 Package unicode-math Warning: The first font loaded by unicode-math must be an
@@ -565,71 +571,62 @@ Package fontspec Info:
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
 (fontspec)             <->s*[1.213446709452141]"[latinmodern-math.otf]/OT:script=math;language=dflt;"
 
-LaTeX Font Info:    Trying to load font information for T1+latinmodern-math.otf(1) on input line 119.
-LaTeX Font Info:    No file T1latinmodern-math.otf(1).fd. on input line 119.
+LaTeX Font Info:    Trying to load font information for T1+latinmodern-math.otf(1) on input line 122.
+LaTeX Font Info:    No file T1latinmodern-math.otf(1).fd. on input line 122.
 
 LaTeX Font Warning: Font shape `T1/latinmodern-math.otf(1)/m/n' undefined
-(Font)              using `T1/lmr/m/n' instead on input line 119.
+(Font)              using `T1/lmr/m/n' instead on input line 122.
 
 LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
-(Font)              `operators' in the math version `normal' on input line 119.
+(Font)              `operators' in the math version `normal' on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/lmr/m/n --> T1/latinmodern-math.otf(1)/m/n on input line 119.
+(Font)                  OT1/lmr/m/n --> T1/latinmodern-math.otf(1)/m/n on input line 122.
 LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
-(Font)              `operators' in the math version `bold' on input line 119.
+(Font)              `operators' in the math version `bold' on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/lmr/bx/n --> T1/latinmodern-math.otf(1)/b/n on input line 119.
-(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
-Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
-(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
-Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
-(/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
-Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
-)
-Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
-))
-Package hyperref Info: Link coloring OFF on input line 119.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 121.
+(Font)                  OT1/lmr/bx/n --> T1/latinmodern-math.otf(1)/b/n on input line 122.
+Package hyperref Info: Link coloring OFF on input line 122.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 124.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 121.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 124.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 121.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 124.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 121.
+(Font)              <12> on input line 124.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 121.
+(Font)              <8> on input line 124.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 121.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 121.
+(Font)              <6> on input line 124.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 124.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 121.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 124.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 122.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 125.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (7.38986pt too wide) in paragraph at lines 133--133
+Overfull \hbox (7.38986pt too wide) in paragraph at lines 136--136
 []\T1/lmtt/m/n/10.95 ## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --[] 
  []
 
 
-Overfull \hbox (7.38986pt too wide) in paragraph at lines 133--133
+Overfull \hbox (7.38986pt too wide) in paragraph at lines 136--136
 []\T1/lmtt/m/n/10.95 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --[] 
  []
 
 
-Overfull \hbox (128.11327pt too wide) in paragraph at lines 133--133
+Overfull \hbox (128.11327pt too wide) in paragraph at lines 136--136
 []\T1/lmtt/m/n/10.95 ## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors[] 
  []
 
@@ -644,7 +641,7 @@ Overfull \hbox (128.11327pt too wide) in paragraph at lines 133--133
 [3]
 Missing character: There is no 　 ("3000) in font phvr8t!
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 227.
+(Font)              <10.95> on input line 230.
 Missing character: There is no 𝜇 ("1D707) in font ec-lmr10!
 Missing character: There is no − ("2212) in font ec-lmr8!
 Missing character: There is no 𝜇 ("1D707) in font ec-lmr10!
@@ -656,7 +653,7 @@ Missing character: There is no − ("2212) in font ec-lmr8!
 [4]
 
 [5]
-LaTeX Font Info:    Trying to load font information for TS1+phv on input line 306.
+LaTeX Font Info:    Trying to load font information for TS1+phv on input line 309.
 (/Users/emunkhtsetseg/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1phv.fd
 File: ts1phv.fd 2020/03/25 scalable font definitions for TS1/phv.
 )
@@ -681,18 +678,25 @@ Missing character: There is no 𝜇 ("1D707) in font ec-lmr10!
 [9]
 
 [10]
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 553.
+File: images/figure_8.png Graphic file (type bmp)
+<images/figure_8.png>
+File: images/figure_9.png Graphic file (type bmp)
+<images/figure_9.png>
 
-
-[11]
-Underfull \hbox (badness 1137) in paragraph at lines 561--576
-\T1/phv/m/n/10.95 com-pre-hen-sion of these climate-teleconnection sys-tems and their an-thro-pogenic feed-back
+Overfull \hbox (57.23698pt too wide) in paragraph at lines 550--552
+[][]
  []
 
 
 
+[11]
+
 [12]
+Underfull \hbox (badness 1137) in paragraph at lines 567--582
+\T1/phv/m/n/10.95 com-pre-hen-sion of these climate-teleconnection sys-tems and their an-thro-pogenic feed-back
+ []
+
+
 
 [13]
 
@@ -701,147 +705,166 @@ Underfull \hbox (badness 1137) in paragraph at lines 561--576
 [15]
 
 [16]
-Underfull \hbox (badness 1895) in paragraph at lines 771--774
+
+[17]
+Underfull \hbox (badness 1895) in paragraph at lines 777--780
 []\T1/phv/m/n/10.95 Ulaanbaatar (47.92°N, 106.92°E): The cap-i-tal city, sit-u-ated at an el-e-va-tion of 1350 m,
  []
 
 
 
-[17]
+[18]
 Missing character: There is no 𝜇 ("1D707) in font ec-lmr10!
 Missing character: There is no − ("2212) in font ec-lmr8!
 
 
-[18]
-
 [19]
+
+[20]
 File: images/figure_3.png Graphic file (type bmp)
 <images/figure_3.png>
 
 
-[20]
+[21]
 File: images/figure_4.png Graphic file (type bmp)
 <images/figure_4.png>
 
 
-[21]
+[22]
 File: images/figure_5.png Graphic file (type bmp)
 <images/figure_5.png>
 
 
-[22]
+[23]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 908.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 908.
+(hyperref)                removing `math shift' on input line 914.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 908.
+(hyperref)                removing `subscript' on input line 914.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 908.
+(hyperref)                removing `math shift' on input line 914.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 908.
+(hyperref)                removing `math shift' on input line 914.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 908.
+(hyperref)                removing `subscript' on input line 914.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 914.
 
 File: images/figure_6.png Graphic file (type bmp)
 <images/figure_6.png>
 
 
-[23]
+[24]
 File: images/figure_7.png Graphic file (type bmp)
 <images/figure_7.png>
 File: images/figure_7b.png Graphic file (type bmp)
 <images/figure_7b.png>
 
 
-[24]
+[25]
 File: images/figure_8.png Graphic file (type bmp)
 <images/figure_8.png>
 File: images/figure_9.png Graphic file (type bmp)
 <images/figure_9.png>
 
-Overfull \hbox (57.23698pt too wide) in paragraph at lines 936--938
+Overfull \hbox (57.23698pt too wide) in paragraph at lines 942--944
 []
  []
 
-File: images/figure_8_supplement.png Graphic file (type bmp)
-<images/figure_8_supplement.png>
-File: images/figure_9_supplement.png Graphic file (type bmp)
-<images/figure_9_supplement.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 939--941
-[][]
- []
-
-
-
-[25]
 
 [26]
+LaTeX Font Info:    Calculating math sizes for size <0.1> on input line 952.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <0.1> on input line 952.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <0.06999> on input line 952.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <0.05> on input line 952.
+File: images/tbl2_seasonal_to_annual.pdf Graphic file (type pdf)
+<use images/tbl2_seasonal_to_annual.pdf>
+
 
 [27]
+File: images/tbl3_pre_post_2014.pdf Graphic file (type pdf)
+<use images/tbl3_pre_post_2014.pdf>
+
+
+[28
+
+]
 File: images/figure_1.png Graphic file (type bmp)
 <images/figure_1.png>
 File: images/table_1.png Graphic file (type bmp)
 <images/table_1.png>
 
 
-[28]
+[29
+
+]
 File: images/scheme_1.png Graphic file (type bmp)
 <images/scheme_1.png>
 
 
-[29]
+[30]
 File: images/figure_2b.png Graphic file (type bmp)
 <images/figure_2b.png>
 File: images/figure_2c.png Graphic file (type bmp)
 <images/figure_2c.png>
 
 
-[30]
-Underfull \hbox (badness 2326) in paragraph at lines 991--991
+[31]
+File: images/figure_8_supplement.png Graphic file (type bmp)
+<images/figure_8_supplement.png>
+File: images/figure_9_supplement.png Graphic file (type bmp)
+<images/figure_9_supplement.png>
+
+
+[32]
+
+[33]
+Underfull \hbox (badness 2326) in paragraph at lines 1053--1053
 []|\T1/phv/b/n/10.95 Munkhtsetseg E\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Shin-oda M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Ishizuka M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Mikami M\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Kimura R\T1/phv/m/n/10.95 , \T1/phv/b/n/10.95 Nikolich G\T1/phv/m/n/10.95 .
  []
 
 
-Underfull \hbox (badness 2020) in paragraph at lines 991--991
+Underfull \hbox (badness 2020) in paragraph at lines 1053--1053
 \T1/phv/m/n/10.95 2017. An-thro-pogenic dust emis-sions due to live-stock tram-pling in a mon-go-lian
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--991
+Underfull \hbox (badness 10000) in paragraph at lines 1053--1053
 \T1/phv/m/n/10.95 tem-per-ate grass-land. At-mo-spheric Chem-istry and Physics \T1/phv/b/n/10.95 17\T1/phv/m/n/10.95 :11389--11401.
  []
 
 
 
-[31] (./outline.aux)
+[34] (./outline.aux)
  ***********
-LaTeX2e <2024-11-01> patch level 1
-L3 programming layer <2024-12-25>
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
  ***********
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 18143 strings out of 475866
- 332335 string characters out of 5773353
- 790695 words of memory out of 5000000
- 40793 multiletter control sequences out of 15000+600000
- 589388 words of font info for 73 fonts, out of 8000000 for 9000
+ 18226 strings out of 475828
+ 334304 string characters out of 5772306
+ 792577 words of memory out of 5000000
+ 40908 multiletter control sequences out of 15000+600000
+ 602252 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 90i,5n,122p,341b,413s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,8n,113p,341b,413s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on outline.pdf (31 pages).
+Output written on outline.pdf (34 pages).

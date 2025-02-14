@@ -2,12 +2,13 @@ library(ggplot2)
 library(readr)
 library(tidyverse)      # scale_y_break
 library(here)
-source(here("code/Colors.R"))
+#source(here("code/Colors.R"))
 library(scales)
 library(ggpubr)
 library(ggbreak)
 library(patchwork)
 library(ggrepel)
+library(gtsummary)
 ####### input DATA 
 data <- read.csv("data/processed/df.csv")
 df <- read.csv("data/processed/df_filled.csv")
@@ -230,7 +231,7 @@ table2_UB <-
                  # digits = 2
     ) 
   ) |>
-  bold_labels(include = c(-Station.name))
+ # bold_labels(include = c(-Station.name))
   remove_row_type(Station.name, type = "level") 
 
 table2_UB
@@ -392,6 +393,18 @@ tbl_SS <- tbl_merge(tbls = list(table1_SS, table2_SS)) |>
 ##########################################################################################
 tbl2_seasonal_to_annual <- tbl_stack(tbls = list(tbl_UB, tbl_DZ, tbl_ZU, tbl_SS)) |>
 modify_footnote(all_stat_cols() ~ "N; Mean (SD)")
-tbl2_seasonal_to_annual
-
-show_header_names(tbl_UB)
+tbl2_seasonal_to_annual |>
+  as_gt() |>
+  gt::gtsave(
+    ("Visuals/tbl2_seasonal_to_annual.png")
+  )
+plots_path <- "file:////var/folders/9f/nn2jnl8n1lj1sk3y391hydzm0000gn/T//Rtmp4iEj37"
+plots_path1 <- "Visuals"
+plots_path2 <- "submission/images"
+# Capture the HTML table as a PNG image
+webshot::webshot(
+  paste0(plots_path, "/filef837ba5bcf5.html"),
+  paste0(plots_path2, "/tbl2_seasonal_to_annual.png"),
+  vheight = 400, 
+  vwidth = 700
+)
